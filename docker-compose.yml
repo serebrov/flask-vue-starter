@@ -9,7 +9,7 @@ services:
     command: flask run
     # command: /bin/bash -c "sleep infinity & wait"
     volumes:
-      - .:/app
+      - .:/src
     ports:
       - "5000:5000"
     environment:
