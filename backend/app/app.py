@@ -14,14 +14,28 @@ from app.extensions import (
 app = create_app(os.getenv('FLASK_CONFIG') or 'local')
 
 
-@app.route("/")
+@app.route("/api")
 def hello():
     return jsonify({
         "message": "Hello"
     })
 
 
-@app.route("/user", methods=['POST'])
+@app.route("/api/user/<string:id>", methods=['GET'])
+def user_get(id):
+    user = User.query.get_or_404(id)
+    schema = UserSchema()
+    return jsonify({"data": schema.dump(obj=user)}), 200
+
+
+@app.route("/api/users", methods=['GET'])
+def users_get():
+    users = User.query.all()
+    schema = UserSchema()
+    return jsonify({"data": schema.dump(users, many=True)}), 200
+
+
+@app.route("/api/users", methods=['POST'])
 def user_create():
     result = webargs.parse(UserSchema(), request)
 
@@ -32,7 +46,7 @@ def user_create():
     db.session.add(user)
     db.session.commit()
     schema = UserSchema()
-    return jsonify(schema.dump(obj=user)), 201
+    return jsonify({"data": schema.dump(obj=user)}), 201
 
 
 @webargs.error_handler
