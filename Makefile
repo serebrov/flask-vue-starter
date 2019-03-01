@@ -1,6 +1,6 @@
 DOCKER_COMPOSE = docker-compose
 PG_URI = postgresql://testuser:testpw@postgresql:5432
-TOOLS = @$(DOCKER_COMPOSE) run --rm app
+TOOLS = @$(DOCKER_COMPOSE) run --rm backend
 
 up:
 	$(DOCKER_COMPOSE) up --build # --force-recreate
@@ -12,14 +12,14 @@ psql:
 	$(DOCKER_COMPOSE) exec postgresql psql $(PG_URI)/forum
 
 migrations-gen:
-	$(DOCKER_COMPOSE) exec app bash -c "echo $$DOCKER_PG_URI"
-	$(DOCKER_COMPOSE) exec app bash -c "./manage.py migrations revision --autogenerate"
+	$(DOCKER_COMPOSE) exec backend bash -c "echo $$DOCKER_PG_URI"
+	$(DOCKER_COMPOSE) exec backend bash -c "./manage.py migrations revision --autogenerate"
 
 migrations-upgrade:
-	$(DOCKER_COMPOSE) exec app bash -c "./manage.py migrations upgrade head"
+	$(DOCKER_COMPOSE) exec backend bash -c "./manage.py migrations upgrade head"
 
 migrations-downgrade:
-	$(DOCKER_COMPOSE) exec app bash -c "./manage.py migrations downgrade"
+	$(DOCKER_COMPOSE) exec backend bash -c "./manage.py migrations downgrade"
 
 bash:
 	# bash shell that is configured to use 'forum' database,
