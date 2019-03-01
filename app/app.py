@@ -1,23 +1,14 @@
 import os
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 from marshmallow import ValidationError
 
-from app.config import config
 from app.models.forum import User
 from app.serializers.forum import UserSchema
-
+from app.create_app import create_app
 from app.extensions import (
     db,
     webargs,
 )
-
-
-def create_app(config_name):
-    app = Flask(__name__)
-    app.config.from_object(config[config_name])
-
-    db.init_app(app)
-    return app
 
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'local')
