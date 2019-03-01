@@ -4,12 +4,12 @@ services:
   app:
     restart: always
     build:
-      context: .
-      dockerfile: ./docker/Dockerfile
+      context: backend
+      dockerfile: Dockerfile
     command: flask run
     # command: /bin/bash -c "sleep infinity & wait"
     volumes:
-      - .:/src
+      - ./backend:/src
     ports:
       - "5000:5000"
     environment:
@@ -18,6 +18,18 @@ services:
       FLASK_CONFIG: local
       SQLALCHEMY_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/forum'
       SQLALCHEMY_DATABASE_URI_ALEMBIC: 'postgresql://testuser:testpw@postgresql:5432/forum'
+
+  frontend:
+    restart: always
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/src
+      - /src/node_modules/
+    ports:
+      - "8080:8080"
+    command: npm run serve
 
   postgresql:
     image: postgres:11.2
