@@ -6,7 +6,7 @@ up:
 	$(DOCKER_COMPOSE) up --build # --force-recreate
 
 recreate-local-db:
-	$(DOCKER_COMPOSE) exec postgresql bash -c "ls -la /app && echo 'drop database forum' | psql $(PG_URI) && echo 'create database forum' | psql $(PG_URI)"
+	$(DOCKER_COMPOSE) exec postgresql bash -c "echo 'drop database forum' | psql $(PG_URI) && echo 'create database forum' | psql $(PG_URI)"
 
 psql:
 	$(DOCKER_COMPOSE) exec postgresql psql $(PG_URI)/forum
@@ -26,6 +26,7 @@ bash:
 	# can be used to test scripts on a local db,
 	# for example
 	#     python -m scripts.data_update
+	#     flask db_create_all
 	$(TOOLS) bash
 
 flask-shell:
