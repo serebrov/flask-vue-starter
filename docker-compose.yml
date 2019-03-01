@@ -16,8 +16,8 @@ services:
       FLASK_APP: /src/app/app.py
       FLASK_RUN_HOST: 0.0.0.0
       FLASK_CONFIG: local
-      SQLALCHEMY_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/postgres'
-      SQLALCHEMY_DATABASE_URI_ALEMBIC: 'postgresql://testuser:testpw@postgresql:5432/postgres'
+      SQLALCHEMY_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/forum'
+      SQLALCHEMY_DATABASE_URI_ALEMBIC: 'postgresql://testuser:testpw@postgresql:5432/forum'
 
   postgresql:
     image: postgres:11.2
