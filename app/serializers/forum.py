@@ -20,6 +20,7 @@ def unique_email(email):
 
 
 class UserSchema(Schema):
+    id = fields.Str(dump_only=True)
     username = fields.Str(required=True, validate=unique_username)
     email = fields.Email(required=True, validate=unique_email)
 
