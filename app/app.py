@@ -23,3 +23,8 @@ def hello():
     return jsonify({
         "message": "Hello"
     })
+
+
+@app.cli.command('db_create_all')
+def db_create_all():
+    db.create_all()
