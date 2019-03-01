@@ -1,0 +1,6 @@
+docker_data
+venv
+
+Session.vim
+
+*.tags
