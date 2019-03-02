@@ -17,6 +17,16 @@ class UserSchema(Schema):
     username = fields.Str(required=True)
     email = fields.Email(required=True)
 
+    @validates_schema
+    def validate_unique_fields(self, data):
+        id = None
+        if 'user' in self.context:
+            id = self.context['user'].id
+        username = data.get('username')
+        validate_unique_field('username', username, id)
+        email = data.get('email')
+        validate_unique_field('email', email, id)
+
 
 class PostSchema(Schema):
     user = fields.Nested(UserSchema, attribute='created_by_user_id')
