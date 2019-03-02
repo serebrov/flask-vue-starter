@@ -78,21 +78,15 @@ export default class Home extends Vue {
   }
 
   async refreshUsers() {
-    this.isLoading = true
-    // this.users = await backend.getUsers()
-    // this.isLoading = false
-
-    backend.getUsers()
-      .then(res => {
-        this.users = res.data
-      })
-      .catch(err => {
-        debugger;
-        this.error = err
-      })
-      .then(() => {
-        this.isLoading = false
-      })
+    this.isLoading = true;
+    try {
+      let response = await backend.getUsers();
+      debugger;
+      this.users = response.data
+    } catch (err) {
+      this.error = err;
+    }
+    this.isLoading = false;
   }
 
   async populateUserToEdit(user) {
