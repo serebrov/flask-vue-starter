@@ -15,7 +15,8 @@ def test_users(client, user_factory):
     user2 = user_factory('test2', 'test2@example.com')
     resp = client.get('/api/users')
     assert resp.status_code == 200
-    assert json.loads(resp.data) == [
-        {},
-        {},
-    ]
+    print(json.loads(resp.data))
+    assert json.loads(resp.data) == {'data': [
+        {'id': str(user1.id), 'username': user1.username, 'email': user1.email},
+        {'id': str(user2.id), 'username': user2.username, 'email': user2.email},
+    ]}

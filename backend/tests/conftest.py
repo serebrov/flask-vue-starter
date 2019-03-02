@@ -26,21 +26,20 @@ def client(testapp):
 def _db(testapp):
     with testapp.app_context():
         db.create_all()
-    return db
+        yield db
 
 
 @pytest.fixture()
 def user_factory(testapp, _db):
     """Return a function to create a ``User``."""
     def factory(username: str, email: str) -> User:
-        with testapp.app_context():
-            user = User(
-                username=username,
-                email=email,
-            )
-            db.session.add(user)
-            db.session.commit()
-            return user
+        user = User(
+            username=username,
+            email=email,
+        )
+        db.session.add(user)
+        db.session.commit()
+        return user
     return factory
 
 
