@@ -49,6 +49,9 @@
             </form>
           </b-card>
         </b-col>
+        <b-col>
+          {{ this.error }}
+        </b-col>
       </b-row>
     </div>
   </div>
@@ -84,6 +87,7 @@ export default class Home extends Vue {
         this.users = res.data
       })
       .catch(err => {
+        debugger;
         this.error = err
       })
       .then(() => {
@@ -96,13 +100,17 @@ export default class Home extends Vue {
   }
 
   async saveUser() {
-    if (this.model.id) {
-      await backend.updateUser(this.model.id, this.model)
-    } else {
-      await backend.createUser(this.model)
+    try {
+      if (this.model.id) {
+        await backend.updateUser(this.model.id, this.model)
+      } else {
+        await backend.createUser(this.model)
+      }
+      this.model = NO_USER // reset form
+      await this.refreshUsers()
+    } catch(err) {
+      this.error = err
     }
-    this.model = NO_USER // reset form
-    await this.refreshUsers()
   }
 
   async deleteUser(id) {
