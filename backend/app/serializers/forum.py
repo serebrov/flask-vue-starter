@@ -9,7 +9,7 @@ def validate_unique_field(name, value, id=None):
         query = query.filter(User.id != id)
     if query.first(): 
         raise ValidationError(
-            'Username should be unique: {}'.format(value), name)
+            '{} should be unique: {}'.format(name, value), name)
 
 
 class UserSchema(Schema):
@@ -22,6 +22,7 @@ class UserSchema(Schema):
         id = None
         if 'user' in self.context:
             id = self.context['user'].id
+
         username = data.get('username')
         validate_unique_field('username', username, id)
         email = data.get('email')
