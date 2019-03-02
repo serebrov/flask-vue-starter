@@ -3,7 +3,7 @@ from flask import jsonify, request
 from marshmallow import ValidationError
 
 from app.models.forum import User
-from app.serializers.forum import UserSchema
+from app.serializers.forum import UserSchema, validate_unique_field
 from app.create_app import create_app
 from app.extensions import (
     db,
@@ -41,8 +41,30 @@ def user_create():
 
     username = result.get('username')
     email = result.get('email')
+    validate_unique_field('username', username)
+    validate_unique_field('email', email)
 
     user = User(username=username, email=email)
+    db.session.add(user)
+    db.session.commit()
+    schema = UserSchema()
+    return jsonify({"data": schema.dump(obj=user)}), 201
+
+
+@app.route("/api/users/<string:id>", methods=['POST'])
+def user_update(id):
+    result = webargs.parse(UserSchema(), request)
+
+    user = User.query.get(id)
+    if not user:
+        raise ValidationError('User not found by id: {}'.format(id))
+    username = result.get('username')
+    email = result.get('email')
+    validate_unique_field('username', username, user.id)
+    validate_unique_field('email', email, user.id)
+
+    user.username = username
+    user.email = email
     db.session.add(user)
     db.session.commit()
     schema = UserSchema()
