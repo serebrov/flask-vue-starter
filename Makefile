@@ -14,6 +14,12 @@ recreate-local-db:
 psql:
 	$(DOCKER_COMPOSE) exec postgresql psql $(PG_URI)/forum
 
+test:
+	$(DOCKER_COMPOSE) exec postgresql bash -c "echo 'drop database if exists forumtest' | psql $(PG_URI)"
+	$(DOCKER_COMPOSE) exec postgresql bash -c "echo 'create database forumtest' | psql $(PG_URI)"
+	$(DOCKER_COMPOSE) exec backend pytest
+
+
 migrations-gen:
 	$(DOCKER_COMPOSE) exec backend bash -c "echo $$DOCKER_PG_URI"
 	$(DOCKER_COMPOSE) exec backend bash -c "./manage.py migrations revision --autogenerate"
