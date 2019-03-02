@@ -49,10 +49,13 @@ def user_update(id):
         raise ValidationError(
             'User not found by id: {}'.format(id), 'id')
 
+    # Pass user as schema context, so we can do additional
+    # validation based on the user data.
     schema = UserSchema()
     schema.context['user'] = user
     result = webargs.parse(schema, request)
 
+    # Assign validated attributes to the model.
     for attr, value in result.items():
         setattr(user, attr, value)
 

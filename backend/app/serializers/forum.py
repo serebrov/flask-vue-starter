@@ -4,8 +4,20 @@ from marshmallow import Schema, fields, validates_schema, ValidationError
 
 
 def validate_unique_field(name, value, id=None):
+    """Validate unique field.
+
+    Args:
+        name: field name to validate ('username' or 'email')
+        value: value to validate
+        id: optional user id, should be specified on user update
+
+    Returns:
+        Nothing, raises ValidationError if validation failed.
+    """
     query = User.query.filter(getattr(User, name) == value)
     if id is not None:
+        # Allow updating username or email for the user to the
+        # same value.
         query = query.filter(User.id != id)
     if query.first(): 
         raise ValidationError(
@@ -19,6 +31,7 @@ class UserSchema(Schema):
 
     @validates_schema
     def validate_unique_fields(self, data):
+        """Valdiate username and email to make sure they are unique."""
         id = None
         if 'user' in self.context:
             id = self.context['user'].id
