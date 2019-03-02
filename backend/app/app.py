@@ -24,29 +24,22 @@ def hello():
 @app.route("/api/user/<string:id>", methods=['GET'])
 def user_get(id):
     user = User.query.get_or_404(id)
-    schema = UserSchema()
-    return jsonify({"data": schema.dump(obj=user)}), 200
+    return jsonify({"data": UserSchema().dump(obj=user)}), 200
 
 
 @app.route("/api/users", methods=['GET'])
 def users_get():
     users = User.query.all()
-    schema = UserSchema()
-    return jsonify({"data": schema.dump(users, many=True)}), 200
+    return jsonify({"data": UserSchema().dump(users, many=True)}), 200
 
 
 @app.route("/api/users", methods=['POST'])
 def user_create():
     result = webargs.parse(UserSchema(), request)
-
-    username = result.get('username')
-    email = result.get('email')
-
-    user = User(username=username, email=email)
+    user = User(**result)
     db.session.add(user)
     db.session.commit()
-    schema = UserSchema()
-    return jsonify({"data": schema.dump(obj=user)}), 201
+    return jsonify({"data": UserSchema().dump(obj=user)}), 201
 
 
 @app.route("/api/users/<string:id>", methods=['POST'])
@@ -58,17 +51,14 @@ def user_update(id):
 
     schema = UserSchema()
     schema.context['user'] = user
-    result = webargs.parse(UserSchema(), request)
+    result = webargs.parse(schema, request)
 
-    username = result.get('username')
-    email = result.get('email')
+    for attr, value in result.items():
+        setattr(user, attr, value)
 
-    user.username = username
-    user.email = email
     db.session.add(user)
     db.session.commit()
-    schema = UserSchema()
-    return jsonify({"data": schema.dump(obj=user)}), 201
+    return jsonify({"data": UserSchema().dump(obj=user)}), 201
 
 
 @webargs.error_handler
