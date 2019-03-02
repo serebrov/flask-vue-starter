@@ -55,9 +55,9 @@
               </div>
             </form>
           </b-card>
-          <div>
-            <span v-if="errors" v-for="error in errors">
-              {{error}}
+          <div v-if="errors">
+            <span v-for="error in errors" :key="error">
+              {{ error }}
             </span>
           </div>
         </b-col>
