@@ -57,7 +57,8 @@ def user_update(id):
 
     user = User.query.get(id)
     if not user:
-        raise ValidationError('User not found by id: {}'.format(id))
+        raise ValidationError(
+            'User not found by id: {}'.format(id), 'id')
     username = result.get('username')
     email = result.get('email')
     validate_unique_field('username', username, user.id)
