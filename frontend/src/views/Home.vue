@@ -27,7 +27,8 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td class="text-right">
-                  <a href="#" @click.prevent="populateUserToEdit(user)">Edit</a> -
+                  <a href="#" @click.prevent="populateUserToEdit(user)">Edit</a>
+                  -
                   <a href="#" @click.prevent="deleteUser(user.id)">Delete</a>
                 </td>
               </tr>
@@ -35,13 +36,19 @@
           </table>
         </b-col>
         <b-col lg="3">
-          <b-card :title="(model.id ? 'Edit User ID#' + model.id : 'New User')">
+          <b-card :title="model.id ? 'Edit User ID#' + model.id : 'New User'">
             <form @submit.prevent="saveUser">
               <b-form-group label="Username">
-                <b-form-input type="text" v-model="model.username"></b-form-input>
+                <b-form-input
+                  type="text"
+                  v-model="model.username"
+                ></b-form-input>
               </b-form-group>
               <b-form-group label="Email">
-                <b-form-textarea rows="4" v-model="model.email"></b-form-textarea>
+                <b-form-textarea
+                  rows="4"
+                  v-model="model.email"
+                ></b-form-textarea>
               </b-form-group>
               <div>
                 <b-btn type="submit" variant="success">Save User</b-btn>
@@ -60,29 +67,26 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import { backend, User } from '../backend'
+import { backend, User } from "../backend";
 
-const NO_USER = {'id': '', 'username': '', 'email': ''}
+const NO_USER = { id: "", username: "", email: "" };
 
-@Component({
-})
+@Component()
 export default class Home extends Vue {
-
-  isLoading: Boolean = false
-  users: Array<User> = []
-  model: User = NO_USER
-  error: Object = null
+  isLoading: Boolean = false;
+  users: Array<User> = [];
+  model: User = NO_USER;
+  error: Object = null;
 
   async beforeMount() {
-    this.refreshUsers()
+    this.refreshUsers();
   }
 
   async refreshUsers() {
     this.isLoading = true;
     try {
       let response = await backend.getUsers();
-      debugger;
-      this.users = response.data
+      this.users = response.data;
     } catch (err) {
       this.error = err;
     }
@@ -90,31 +94,31 @@ export default class Home extends Vue {
   }
 
   async populateUserToEdit(user) {
-      this.model = Object.assign({}, user)
+    this.model = Object.assign({}, user);
   }
 
   async saveUser() {
     try {
       if (this.model.id) {
-        await backend.updateUser(this.model.id, this.model)
+        await backend.updateUser(this.model.id, this.model);
       } else {
-        await backend.createUser(this.model)
+        await backend.createUser(this.model);
       }
-      this.model = NO_USER // reset form
-      await this.refreshUsers()
-    } catch(err) {
-      this.error = err
+      this.model = NO_USER; // reset form
+      await this.refreshUsers();
+    } catch (err) {
+      this.error = err;
     }
   }
 
   async deleteUser(id) {
-    if (confirm('Are you sure you want to delete this user?')) {
+    if (confirm("Are you sure you want to delete this user?")) {
       // if we are editing a users we deleted, remove it from the form
       if (this.model.id === id) {
-        this.model = NO_USER
+        this.model = NO_USER;
       }
-      await backend.deleteUser(id)
-      await this.refreshUsers()
+      await backend.deleteUser(id);
+      await this.refreshUsers();
     }
   }
 }
