@@ -55,9 +55,11 @@
               </div>
             </form>
           </b-card>
-        </b-col>
-        <b-col>
-          {{ this.error }}
+          <div>
+            <span v-if="errors" v-for="error in errors">
+              {{error}}
+            </span>
+          </div>
         </b-col>
       </b-row>
     </div>
@@ -71,12 +73,13 @@ import { backend, User } from "../backend";
 
 const NO_USER = { id: "", username: "", email: "" };
 
-@Component()
+@Component
 export default class Home extends Vue {
   isLoading: Boolean = false;
   users: Array<User> = [];
   model: User = NO_USER;
   error: Object = null;
+  errors: Array<String> = [];
 
   async beforeMount() {
     this.refreshUsers();
@@ -88,7 +91,7 @@ export default class Home extends Vue {
       let response = await backend.getUsers();
       this.users = response.data;
     } catch (err) {
-      this.error = err;
+      this.parseError(err);
     }
     this.isLoading = false;
   }
@@ -107,7 +110,7 @@ export default class Home extends Vue {
       this.model = NO_USER; // reset form
       await this.refreshUsers();
     } catch (err) {
-      this.error = err;
+      this.parseError(err);
     }
   }
 
@@ -119,6 +122,16 @@ export default class Home extends Vue {
       }
       await backend.deleteUser(id);
       await this.refreshUsers();
+    }
+  }
+
+  parseError(error) {
+    this.error = error;
+    this.errors = [];
+    if (error) {
+      for (let idx in error.response.data.errors) {
+        this.errors.push(idx + ": " + error.response.data.errors[idx]);
+      }
     }
   }
 }
