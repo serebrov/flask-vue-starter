@@ -7,3 +7,6 @@ Flask-SQLAlchemy==2.3.2
 
 marshmallow==3.0.0rc4
 webargs==5.1.2
+
+pytest==4.3.0
+pytest-cov==2.6.1
