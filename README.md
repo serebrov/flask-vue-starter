@@ -1,6 +1,6 @@
-Example CRUD app: Flask (SQLAlchemy, PostgreSQL) + Vue.js (Typescript), docker setup for backend and frontend.
+Starter example app: Flask (SQLAlchemy, PostgreSQL) + Vue.js (Typescript), docker setup for backend and frontend.
 
-Backend setup:
+Backend setup (provides REST API for the frontend):
 
 - [Flask 1.0.2](http://flask.pocoo.org/)
 - [SQLAlchemy](https://www.sqlalchemy.org/) and [PostgreSQL 11.2](https://www.postgresql.org/)
