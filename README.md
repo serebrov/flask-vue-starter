@@ -2,7 +2,7 @@ Example CRUD app: Flask (SQLAlchemy, PostgreSQL) + Vue.js (Typescript), docker s
 
 Backend setup:
 
-- [Flask 1.0.2](http://flask.pocoo.org/) 1.0.2
+- [Flask 1.0.2](http://flask.pocoo.org/)
 - [SQLAlchemy](https://www.sqlalchemy.org/) and [PostgreSQL 11.2](https://www.postgresql.org/)
 - [Marshmallow](https://marshmallow.readthedocs.io/en/3.0/) for validation and serialization
 - Testing with [pytest](https://docs.pytest.org/en/latest/)
