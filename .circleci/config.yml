@@ -5,6 +5,8 @@ jobs:
     # see circleci.com/docs/2.0/circleci-images/ for
     # the list of pre-built CircleCI images on dockerhub.
       - image: circleci/python:3.7.1
+        environment:
+          SQLALCHEMY_DATABASE_URI: 'postgresql://testuser:testpw@localhost:5432/forumtest'
 
       - image: postgres:9.6.11 # Specifies the database image
        # for the secondary or service container run in a common
