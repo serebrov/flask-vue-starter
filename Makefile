@@ -5,7 +5,19 @@ BACKEND = @$(DOCKER_COMPOSE) run --rm backend
 FRONTEND = @$(DOCKER_COMPOSE) run --rm frontend
 
 up:
+	$(MAKE) fix-permissions
 	$(DOCKER_COMPOSE) up --build # --force-recreate
+
+build:
+	$(MAKE) fix-permissions
+	$(DOCKER_COMPOSE) build
+	$(FRONTEND) bash -c "node --version && yarn install"
+	$(MAKE) fix-permissions
+
+fix-permissions:
+	# Note: there should be better way to handle this.
+	sudo chown -R $(USER):$(USER) frontend
+	sudo chown -R $(USER):$(USER) backend
 
 recreate-local-db:
 	$(DOCKER_COMPOSE) stop backend
