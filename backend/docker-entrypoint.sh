@@ -9,8 +9,8 @@ if [ ! -d "/src/venv" ]; then
 fi
 
 source venv/bin/activate
-pip install -q -r requirements.txt
-pip install -q -r requirements-dev.txt
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
 # Note: this doesn't acutally work, it tries to rewrite paths in venv
 # to make them relative, but it doesn't change the absolute path in
 # the venv/bin/activate, so venv still can not be used.
