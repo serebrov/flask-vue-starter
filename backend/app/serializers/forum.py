@@ -1,4 +1,3 @@
-from app.extensions import db
 from app.models.forum import User
 from marshmallow import Schema, fields, validates_schema, ValidationError
 
@@ -19,9 +18,8 @@ def validate_unique_field(name, value, id=None):
         # Allow updating username or email for the user to the
         # same value.
         query = query.filter(User.id != id)
-    if query.first(): 
-        raise ValidationError(
-            '{} should be unique: {}'.format(name, value), name)
+    if query.first():
+        raise ValidationError("{} should be unique: {}".format(name, value), name)
 
 
 class UserSchema(Schema):
@@ -33,16 +31,16 @@ class UserSchema(Schema):
     def validate_unique_fields(self, data):
         """Valdiate username and email to make sure they are unique."""
         id = None
-        if 'user' in self.context:
-            id = self.context['user'].id
+        if "user" in self.context:
+            id = self.context["user"].id
 
-        username = data.get('username')
-        validate_unique_field('username', username, id)
-        email = data.get('email')
-        validate_unique_field('email', email, id)
+        username = data.get("username")
+        validate_unique_field("username", username, id)
+        email = data.get("email")
+        validate_unique_field("email", email, id)
 
 
 class PostSchema(Schema):
-    user = fields.Nested(UserSchema, attribute='created_by_user_id')
+    user = fields.Nested(UserSchema, attribute="created_by_user_id")
     title = fields.Str()
     text = fields.Str()

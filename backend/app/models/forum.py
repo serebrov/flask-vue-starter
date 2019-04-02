@@ -23,7 +23,7 @@ class User(db.Model):
         self.email = email
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return "<User %r>" % self.username
 
 
 class Post(db.Model):
@@ -32,38 +32,31 @@ class Post(db.Model):
     text = db.Column(db.Text, nullable=False)
 
     created_by_user_id = Column(
-        UUID(as_uuid=True),
-        db.ForeignKey('user.id'),
-        nullable=False)
+        UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False
+    )
     created_at = Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(db.DateTime, default=datetime.utcnow, nullable=False,
-                        onupdate=datetime.utcnow)
-
-
-    user = relationship(
-        'User',
-        backref=backref('posts', lazy='dynamic')
+    updated_at = Column(
+        db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow
     )
 
+    user = relationship("User", backref=backref("posts", lazy="dynamic"))
+
     def __repr__(self):
-        return '<Post %r>' % self.title
+        return "<Post %r>" % self.title
 
 
 class Comment(db.Model):
     id = Column(UUID(as_uuid=True), primary_key=True)
-    post_id = Column(
-        UUID(as_uuid=True),
-        db.ForeignKey('post.id'),
-        primary_key=True)
+    post_id = Column(UUID(as_uuid=True), db.ForeignKey("post.id"), primary_key=True)
     text = db.Column(db.Text, nullable=False)
 
     created_by_user_id = Column(
-        UUID(as_uuid=True),
-        db.ForeignKey('user.id'),
-        nullable=False)
+        UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False
+    )
     created_at = Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(db.DateTime, default=datetime.utcnow, nullable=False,
-                        onupdate=datetime.utcnow)
+    updated_at = Column(
+        db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow
+    )
 
     def __repr__(self):
-        return '<Comment %r>' % self.id
+        return "<Comment %r>" % self.id
