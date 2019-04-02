@@ -1,0 +1,12 @@
+[flake8]
+exclude =
+    scripts/*,
+    # Generated files
+    migrations,
+    venv,
+    etc,
+    tests/pytest_flask_sqlalchemy,
+    .mypy_cache,
+    .pytest_cache
+
+max-line-length = 88
