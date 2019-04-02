@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/serebrov/flask-vue-starter.svg?style=svg)](https://circleci.com/gh/serebrov/flask-vue-starter)
+
 Starter example app: Flask (SQLAlchemy, PostgreSQL) + Vue.js (Typescript), docker setup for backend and frontend.
 
 Backend setup (provides REST API for the frontend):
