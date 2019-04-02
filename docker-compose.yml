@@ -6,6 +6,8 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    # Entrypoint installs python dependencies if needed.
+    entrypoint: ./docker-entrypoint.sh
     command: flask run
     # command: /bin/bash -c "sleep infinity & wait"
     volumes:
@@ -17,7 +19,7 @@ services:
       FLASK_RUN_HOST: 0.0.0.0
       FLASK_CONFIG: local
       SQLALCHEMY_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/forum'
-      SQLALCHEMY_TEST_DATABASE_URI: 'postgresql://testuser:testpw@localhost:5432/forumtest'
+      SQLALCHEMY_TEST_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/forumtest'
 
   frontend:
     restart: always
@@ -26,7 +28,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend:/src
-      - /src/node_modules/
     ports:
       - "8080:8080"
     command: npm run serve
