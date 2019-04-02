@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - run: cd backend && pip install --user -r requirements.txt
-      - run: cd backend && pytest
+      - run: cd backend && python -m pytest
 
   frontend: # job name
     docker:
