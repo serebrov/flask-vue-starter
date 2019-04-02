@@ -1,6 +1,8 @@
 DOCKER_COMPOSE = docker-compose
 PG_URI = postgresql://testuser:testpw@postgresql:5432
-TOOLS = @$(DOCKER_COMPOSE) run --rm backend
+
+BACKEND = @$(DOCKER_COMPOSE) run --rm backend
+FRONTEND = @$(DOCKER_COMPOSE) run --rm frontend
 
 up:
 	$(DOCKER_COMPOSE) up --build # --force-recreate
@@ -15,32 +17,36 @@ psql:
 	$(DOCKER_COMPOSE) exec postgresql psql $(PG_URI)/forum
 
 test:
-	$(DOCKER_COMPOSE) exec postgresql bash -c "echo 'drop database if exists forumtest' | psql $(PG_URI)"
-	$(DOCKER_COMPOSE) exec postgresql bash -c "echo 'create database forumtest' | psql $(PG_URI)"
+	$(MAKE) backend-test
+	$(MAKE) frontend-test
+
+backend-test:
 	$(DOCKER_COMPOSE) exec backend pytest
 
-
-migrations-gen:
-	$(DOCKER_COMPOSE) exec backend bash -c "echo $$DOCKER_PG_URI"
-	$(DOCKER_COMPOSE) exec backend bash -c "./manage.py migrations revision --autogenerate"
-
-migrations-upgrade:
-	$(DOCKER_COMPOSE) exec backend bash -c "./manage.py migrations upgrade head"
-
-migrations-downgrade:
-	$(DOCKER_COMPOSE) exec backend bash -c "./manage.py migrations downgrade"
-
-bash:
+backend-bash:
 	# bash shell that is configured to use 'forum' database,
 	# can be used to test scripts on a local db,
 	# for example
 	#     python -m scripts.data_update
 	#     flask db_create_all
-	$(TOOLS) bash
+	#     flask shell
+	$(BACKEND) bash
 
-flask-shell:
-	# bash shell that is configured to use 'forum' database,
-	# can be used to test scripts on a local db,
-	# for example
-	#     python -m scripts.data_update
-	$(TOOLS) flask shell
+frontend-bash:
+	$(FRONTEND) bash
+
+frontend-test:
+	$(FRONTEND) yarn test:unit
+	# $(FRONTEND) yarn test:e2e --headless
+
+# Run linters.
+lint:
+	$(BACKEND) bash -c "mypy . && flake8 ."
+	$(BACKEND) bash -c "black --check --diff ."
+	$(FRONTEND) bash -c "yarn prettier-check"
+	$(FRONTEND) bash -c "yarn lint"
+
+# Format code.
+format-code:
+	$(BACKEND) bash -c "black ."
+	$(FRONTEND) bash -c "yarn format"
