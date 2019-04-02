@@ -23,7 +23,7 @@ recreate-local-db:
 	$(DOCKER_COMPOSE) stop backend
 	$(DOCKER_COMPOSE) exec postgresql bash -c "echo 'drop database forum' | psql $(PG_URI) && echo 'create database forum' | psql $(PG_URI)"
 	$(DOCKER_COMPOSE) start backend
-	$(DOCKER_COMPOSE) exec backend flask db_create_all
+	$(DOCKER_COMPOSE) exec backend bash -c "source venv/bin/activate && flask db upgrade"
 
 psql:
 	$(DOCKER_COMPOSE) exec postgresql psql $(PG_URI)/forum
