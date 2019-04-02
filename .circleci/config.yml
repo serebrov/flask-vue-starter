@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  backend: # job name
+  build1: # job name
     docker: # Specifies the primary container image,
     # see circleci.com/docs/2.0/circleci-images/ for
     # the list of pre-built CircleCI images on dockerhub.
@@ -19,9 +19,9 @@ jobs:
 
     steps:
       - checkout
-      - cd backend && pytest
+      - run: cd backend && pytest
 
-  frontend: # job name
+  build2: # job name
     docker:
       - image: circleci/node:8.11.2
     parallelism: 1
