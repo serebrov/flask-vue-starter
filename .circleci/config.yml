@@ -22,6 +22,8 @@ jobs:
     steps:
       - checkout
       - run: cd backend && pip install --user -r requirements.txt
+      - run: cd backend && python -m mypy .
+      - run: cd backend && python -m flake8 .
       - run: cd backend && python -m pytest
 
   frontend: # job name
@@ -32,6 +34,8 @@ jobs:
     steps:
       - checkout
       - run: cd frontend && yarn install
+      - run: cd frontend && yarn prettier-check
+      - run: cd frontend && yarn lint
       - run: cd frontend && yarn test:unit
 
 workflows:
