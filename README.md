@@ -35,3 +35,14 @@ Run tests: `make test`.
 Run linters: `make lint`.
 
 Reformat sources: `make format-code`.
+
+# Backend DB Migrations
+
+DB migrations are handled by [alembic](https://alembic.sqlalchemy.org/en/latest/autogenerate.html) and [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/).
+
+`Flask-Migrate` runs migrations in the context of flask application, to use it, run `make backend-bash` and then use one of the following commands:
+
+- `flask db migrate -m "change description"` - generate new migrations from models
+- `flask db upgrade` - apply migrations to the database
+- `flask db downgrade` - downgrade the database
+- `flask db --help` - get help and list of available commands
