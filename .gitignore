@@ -1,6 +1,7 @@
 docker_data
 venv
 __pycache__
+.mypy_cache
 
 Session.vim
 
