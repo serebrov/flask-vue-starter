@@ -4,12 +4,18 @@ set -e
 if [ ! -d "/src/venv" ]; then
   cd /src
   virtualenv -p python3 venv
-  virtualenv --relocatable venv
+  # See the note below.
+  # virtualenv --relocatable venv
 fi
 
 source venv/bin/activate
 pip install -q -r requirements.txt
 pip install -q -r requirements-dev.txt
-virtualenv --relocatable venv
+# Note: this doesn't acutally work, it tries to rewrite paths in venv
+# to make them relative, but it doesn't change the absolute path in
+# the venv/bin/activate, so venv still can not be used.
+# So for now - venv is available on the host, but only works inside
+# docker container.
+# virtualenv --relocatable venv
 
 exec "$@"
