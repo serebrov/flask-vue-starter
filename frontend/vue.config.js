@@ -8,5 +8,5 @@ module.exports = {
         target: 'http://backend:5000/'
       }
     }*/
-  }
-};
+  },
+}

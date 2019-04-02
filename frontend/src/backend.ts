@@ -8,23 +8,25 @@ let $axios = axios.create({
   // baseURL: 'http://localhost:5000/api/',
   baseURL: 'http://localhost:5000/api/',
   timeout: 5000,
-  headers: {'Content-Type': 'application/json'}
+  headers: { 'Content-Type': 'application/json' },
 })
 
 // Request Interceptor
-$axios.interceptors.request.use(function (config) {
+$axios.interceptors.request.use(function(config) {
   config.headers['Authorization'] = 'Fake Token'
   return config
 })
 
 // Response Interceptor to handle and log errors
-$axios.interceptors.response.use(function (response) {
-  return response
-}, function (error) {
-  // Handle Error
-  console.log(error)
-  return Promise.reject(error)
-})
+$axios.interceptors.response.use(
+  function(response) {
+    return response
+  },
+  function(error) {
+    // Handle Error
+    return Promise.reject(error)
+  },
+)
 
 export interface User {
   id: String
@@ -33,37 +35,31 @@ export interface User {
 }
 
 export let backend = {
-
   getUsers() {
-    return $axios.get(`users`)
-      .then(response => response.data)
+    return $axios.get(`users`).then((response) => response.data)
   },
 
   getUser(id) {
-    return $axios.get(`user/${id}`)
-      .then(response => response.data)
+    return $axios.get(`user/${id}`).then((response) => response.data)
   },
 
   createUser(data) {
     let user = {
-      'username': data.username,
-      'email': data.email
+      username: data.username,
+      email: data.email,
     }
-    return $axios.post(`users`, user)
-      .then(response => response.data)
+    return $axios.post(`users`, user).then((response) => response.data)
   },
 
   updateUser(id, data) {
     let user = {
-      'username': data.username,
-      'email': data.email
+      username: data.username,
+      email: data.email,
     }
-    return $axios.post(`users/${id}`, user)
-      .then(response => response.data)
+    return $axios.post(`users/${id}`, user).then((response) => response.data)
   },
 
   deleteUser(id) {
-    return $axios.delete(`users/${id}`)
-      .then(response => response.data)
-  }
-};
+    return $axios.delete(`users/${id}`).then((response) => response.data)
+  },
+}

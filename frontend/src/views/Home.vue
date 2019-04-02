@@ -67,70 +67,70 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator'
 
-import { backend, User } from "../backend";
+import { backend, User } from '../backend'
 
-const NO_USER = { id: "", username: "", email: "" };
+const NO_USER = { id: '', username: '', email: '' }
 
 @Component
 export default class Home extends Vue {
-  isLoading: Boolean = false;
-  users: Array<User> = [];
-  model: User = NO_USER;
-  error: Object = null;
-  errors: Array<String> = [];
+  isLoading: Boolean = false
+  users: Array<User> = []
+  model: User = NO_USER
+  error: Object = null
+  errors: Array<String> = []
 
   async beforeMount() {
-    this.refreshUsers();
+    this.refreshUsers()
   }
 
   async refreshUsers() {
-    this.isLoading = true;
+    this.isLoading = true
     try {
-      let response = await backend.getUsers();
-      this.users = response.data;
+      let response = await backend.getUsers()
+      this.users = response.data
     } catch (err) {
-      this.parseError(err);
+      this.parseError(err)
     }
-    this.isLoading = false;
+    this.isLoading = false
   }
 
   async populateUserToEdit(user) {
-    this.model = Object.assign({}, user);
+    this.model = Object.assign({}, user)
   }
 
   async saveUser() {
     try {
       if (this.model.id) {
-        await backend.updateUser(this.model.id, this.model);
+        await backend.updateUser(this.model.id, this.model)
       } else {
-        await backend.createUser(this.model);
+        await backend.createUser(this.model)
       }
-      this.model = NO_USER; // reset form
-      await this.refreshUsers();
+      this.model = NO_USER // reset form
+      await this.refreshUsers()
     } catch (err) {
-      this.parseError(err);
+      this.parseError(err)
     }
   }
 
   async deleteUser(id) {
-    if (confirm("Are you sure you want to delete this user?")) {
+    if (confirm('Are you sure you want to delete this user?')) {
       // if we are editing a users we deleted, remove it from the form
       if (this.model.id === id) {
-        this.model = NO_USER;
+        this.model = NO_USER
       }
-      await backend.deleteUser(id);
-      await this.refreshUsers();
+      await backend.deleteUser(id)
+      await this.refreshUsers()
     }
   }
 
   parseError(error) {
-    this.error = error;
-    this.errors = [];
+    this.error = error
+    this.errors = []
     if (error) {
       for (let idx in error.response.data.errors) {
-        this.errors.push(idx + ": " + error.response.data.errors[idx]);
+        this.errors.push(idx + ': ' + error.response.data.errors[idx])
       }
     }
   }

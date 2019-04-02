@@ -8,7 +8,8 @@
     "lint": "vue-cli-service lint --no-fix",
     "format": "vue-cli-service lint --fix",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "prettier-check": "prettier --check \"{src,tests}/**/*.{ts,js}\""
   },
   "dependencies": {
     "axios": "^0.18.0",
