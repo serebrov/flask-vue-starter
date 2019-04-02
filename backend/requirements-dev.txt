@@ -1,0 +1,10 @@
+ipdb
+pdbpp
+mypy
+flake8
+
+# https://github.com/dropbox/sqlalchemy-stubs/
+sqlalchemy-stubs==0.1
+
+# prettier-python says it's derpecated, use black instead
+black
