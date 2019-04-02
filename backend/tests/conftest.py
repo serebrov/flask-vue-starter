@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy import create_engine
 import sqlalchemy as sa
 
-from app.app import app
+from app.app import app as flask_app
 from app.extensions import db
 from app.models.forum import User
 
