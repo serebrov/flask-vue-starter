@@ -19,6 +19,7 @@ jobs:
 
     steps:
       - checkout
+      - run: cd backend && pip install -r requirements.txt
       - run: cd backend && pytest
 
   build2: # job name
