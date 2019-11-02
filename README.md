@@ -4,17 +4,17 @@ Starter example app: Flask (SQLAlchemy, PostgreSQL) + Vue.js (Typescript), docke
 
 Backend setup (provides REST API for the frontend):
 
-- [Flask 1.0.2](http://flask.pocoo.org/)
-- [SQLAlchemy](https://www.sqlalchemy.org/) and [PostgreSQL 11.2](https://www.postgresql.org/)
-- [Marshmallow](https://marshmallow.readthedocs.io/en/3.0/) for validation and serialization
+- [Flask 1.1](http://flask.pocoo.org/)
+- [SQLAlchemy 1.3](https://www.sqlalchemy.org/) and [PostgreSQL 11.2](https://www.postgresql.org/)
+- [Marshmallow 3.2](https://marshmallow.readthedocs.io/) for validation and serialization
 - Testing with [pytest](https://docs.pytest.org/en/latest/)
 - Linting with [mypy](http://mypy-lang.org/), [flake8](http://flake8.pycqa.org/en/latest/) and [black](https://github.com/ambv/black)
 - Code formatting with [black](https://github.com/ambv/black)
 
 Frontend setup:
 
-- [Vue.js 2.6.6](https://vuejs.org/) with [vue-cli](https://cli.vuejs.org/)
-- [Typescript 3.2.2](https://www.typescriptlang.org/)
+- [Vue.js 2.6](https://vuejs.org/) with [vue-cli 4.0](https://cli.vuejs.org/)
+- [Typescript 3.4.5](https://www.typescriptlang.org/)
 - [axios](https://github.com/axios/axios) for HTTP requests
 - [bootstrap-vue](https://bootstrap-vue.js.org/) for UI
 - Testing with [jest](https://jestjs.io/)
