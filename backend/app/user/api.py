@@ -25,7 +25,7 @@ def user_get(id: str):
     user = User.query.get(id)
     if user is None:
         abort(404, message="User not found.")
-    return book
+    return user
 
 
 @blueprint.route("/", methods=["POST"])
