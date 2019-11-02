@@ -1,9 +1,8 @@
 from uuid import UUID
 from typing import Any, Optional
 
-from flask import g
 from marshmallow import Schema, ValidationError
-from marshmallow import fields, post_dump, validate
+from marshmallow import post_dump, validate
 
 from app.utils.types import JSON
 

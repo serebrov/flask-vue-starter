@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import Optional
 
-from marshmallow import Schema, fields, validates_schema, ValidationError
+from marshmallow import fields, validates_schema, ValidationError
 
 from app.utils.serializers import WrapDataSchema
 from app.utils.types import JSON

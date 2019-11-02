@@ -2,7 +2,6 @@ from datetime import datetime
 from uuid import uuid4
 
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import backref, relationship
 from sqlalchemy.schema import Column
 
 from app.extensions import db
