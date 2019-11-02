@@ -33,7 +33,7 @@ test:
 	$(MAKE) frontend-test
 
 backend-test:
-	$(DOCKER_COMPOSE) exec backend pytest
+	$(DOCKER_COMPOSE) exec backend pytest -s --cov app --cov-report=html
 
 backend-bash:
 	# bash shell that is configured to use 'forum' database,
@@ -48,7 +48,7 @@ frontend-bash:
 	$(FRONTEND) bash
 
 frontend-test:
-	$(FRONTEND) yarn test:unit
+	$(FRONTEND) yarn test:unit-coverage
 	# $(FRONTEND) yarn test:e2e --headless
 
 # Run linters.
