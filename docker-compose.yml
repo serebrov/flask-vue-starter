@@ -6,6 +6,12 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    # User setting to have files with correct permissions on the host.
+    # Requires export $UID=$UID and export $GID=$GID somewhere (~/.bashrc or ~/.zshrc)
+    # This is becuase UID and GID are shell variables, not env variables,
+    # so it doesn't work without export.
+    # See also: https://github.com/docker/compose/issues/2380
+    user: "${UID}:${GID}"
     # Entrypoint installs python dependencies if needed.
     entrypoint: ./docker-entrypoint.sh
     command: flask run
@@ -23,6 +29,7 @@ services:
 
   frontend:
     restart: always
+    user: "${UID}:${GID}"
     build:
       context: frontend
       dockerfile: Dockerfile
@@ -34,6 +41,7 @@ services:
 
   postgresql:
     image: postgres:11.2
+    user: "${UID}:${GID}"
     environment:
       POSTGRES_USER: testuser
       POSTGRES_PASSWORD: testpw
