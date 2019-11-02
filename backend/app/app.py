@@ -58,6 +58,17 @@ def user_update(id):
     return jsonify({"data": UserSchema().dump(obj=user)}), 200
 
 
+@app.route("/api/users/<string:id>", methods=["DELETE"])
+def user_delete(id):
+    user = User.query.get(id)
+    if not user:
+        raise ValidationError("User not found by id: {}".format(id), "id")
+
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({"data": UserSchema().dump(obj=user)}), 200
+
+
 @webargs.error_handler
 def handle_error(error, req, schema, status_code, headers):
     raise ValidationError(error.messages)
