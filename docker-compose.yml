@@ -32,12 +32,12 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+    command: /bin/bash -c "yarn install && yarn serve"
     user: "${UID}:${GID}"
     volumes:
       - ./frontend:/src:cached
     ports:
       - "8080:8080"
-    command: npm run serve
 
   postgresql:
     image: postgres:11.2
