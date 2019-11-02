@@ -10,7 +10,7 @@ def test_api(client):
     assert json.loads(resp.data) == {"message": "Hello"}
 
 
-@pytest.mark.usefixtures("_db")
+@pytest.mark.usefixtures("db_session")
 def test_users(client, user_factory):
     user1 = user_factory("test", "test@example.com")
     user2 = user_factory("test2", "test2@example.com")
@@ -25,7 +25,7 @@ def test_users(client, user_factory):
     }
 
 
-@pytest.mark.usefixtures("_db")
+@pytest.mark.usefixtures("db_session")
 def test_user_create(client):
     data = {"username": "test", "email": "test@example.com"}
     resp = client.post("/api/users", data=json.dumps(data))
@@ -39,7 +39,7 @@ def test_user_create(client):
     }
 
 
-@pytest.mark.usefixtures("_db")
+@pytest.mark.usefixtures("db_session")
 def test_user_update(client, user_factory):
     user = user_factory("name", "name@example.com")
     data = {"username": "nameNew", "email": "name.new@example.com"}
