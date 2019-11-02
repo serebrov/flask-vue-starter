@@ -9,9 +9,6 @@ from app.extensions import db
 from app.models.forum import User
 
 
-pytest_plugins = ["tests.pytest_flask_sqlalchemy.plugin"]
-
-
 # Retrieve a database connection string from the shell environment
 try:
     DB_CONN = os.environ["SQLALCHEMY_TEST_DATABASE_URI"]

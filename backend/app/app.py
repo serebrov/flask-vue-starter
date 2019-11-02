@@ -55,7 +55,7 @@ def user_update(id):
 
     db.session.add(user)
     db.session.commit()
-    return jsonify({"data": UserSchema().dump(obj=user)}), 201
+    return jsonify({"data": UserSchema().dump(obj=user)}), 200
 
 
 @webargs.error_handler
