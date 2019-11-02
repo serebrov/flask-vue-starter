@@ -40,14 +40,14 @@
             <form @submit.prevent="saveUser">
               <b-form-group label="Username">
                 <b-form-input
-                  type="text"
                   v-model="model.username"
+                  type="text"
                 ></b-form-input>
               </b-form-group>
               <b-form-group label="Email">
                 <b-form-textarea
-                  rows="4"
                   v-model="model.email"
+                  rows="4"
                 ></b-form-textarea>
               </b-form-group>
               <div>
