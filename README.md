@@ -21,6 +21,11 @@ Frontend setup:
 - Linting with typescript, eslint and prettier
 - Code formatting with prettier
 
+Note: on linux, to fix permissions between host / docker shared containers, it is necessary to export `$UID` and `$GID` variables, this can be done in ~/.bashrc or ~/.zshrc.
+This is becuase UID and GID are shell variables, not env variables.
+It allows to have dependencies (python venv and node.js node_modules shared from the container to the host, so we can have IDE completion on the host, or just easily access the dependencies from the editor).
+See also: https://github.com/docker/compose/issues/2380.
+
 Rebuild images / reinstall dependencies: `make build`.
 Note: the dependencies are installed into the volume shared with the host system, so are available inside the source folders (so IDEs, for example, can use them for autocomplete, or people can use as a reference to quickly check how things are implemented inside the packages).
 
