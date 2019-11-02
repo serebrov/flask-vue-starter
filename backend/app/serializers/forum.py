@@ -1,8 +1,14 @@
+from uuid import UUID
+from typing import Optional
+
 from app.models.forum import User
+from app.utils.types import JSON
 from marshmallow import Schema, fields, validates_schema, ValidationError
 
 
-def validate_unique_field(name, value, id=None):
+def validate_unique_field(
+    name: str, value: Optional[str], id: Optional[UUID] = None
+) -> None:
     """Validate unique field.
 
     Args:
@@ -28,7 +34,7 @@ class UserSchema(Schema):
     email = fields.Email(required=True)
 
     @validates_schema
-    def validate_unique_fields(self, data):
+    def validate_unique_fields(self, data: JSON, partial: bool, many: bool) -> None:
         """Valdiate username and email to make sure they are unique."""
         id = None
         if "user" in self.context:
