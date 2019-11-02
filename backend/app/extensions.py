@@ -1,14 +1,19 @@
 from flask import Flask
+
 from flask_sqlalchemy import SQLAlchemy
-from webargs.flaskparser import FlaskParser
 from flask_migrate import Migrate
 
+from flask_rest_api import Api
+from flask_rest_api.arguments import ArgumentsMixin
+
 db = SQLAlchemy()
-webargs = FlaskParser()
 migrate = Migrate()
+webargs = ArgumentsMixin.ARGUMENTS_PARSER
+api = Api()
 
 
 def init_app_extensions(app: Flask):
     """Intitialize the extensions with app instance."""
     db.init_app(app)
+    api.init_app(app)
     migrate.init_app(app, db)

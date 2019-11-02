@@ -36,7 +36,7 @@ export interface User {
 
 export let backend = {
   getUsers() {
-    return $axios.get(`users`).then((response) => response.data)
+    return $axios.get(`users/`).then((response) => response.data)
   },
 
   getUser(id) {
@@ -48,7 +48,7 @@ export let backend = {
       username: data.username,
       email: data.email,
     }
-    return $axios.post(`users`, user).then((response) => response.data)
+    return $axios.post(`users/`, user).then((response) => response.data)
   },
 
   updateUser(id, data) {

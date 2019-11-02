@@ -2,7 +2,16 @@
 
 Starter example app: Flask (SQLAlchemy, PostgreSQL) + Vue.js (Typescript), docker setup for backend and frontend.
 
-Backend setup (provides REST API for the frontend):
+Backend is powered by Flask, flask-rest-api, marshmallow and SQLAlchemy to create a solid framework for REST API backend development:
+
+- Application structure
+- Routing
+- Data validation, serialization and de-serialization
+- DB layer with ORM and migrations
+- API documentation with apispec and Swagger
+- Testing with pytest
+
+Backend setup:
 
 - [Flask 1.1](http://flask.pocoo.org/)
 - [SQLAlchemy 1.3](https://www.sqlalchemy.org/) and [PostgreSQL 11.2](https://www.postgresql.org/)

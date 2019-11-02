@@ -4,9 +4,9 @@ import pytest
 from sqlalchemy import create_engine
 import sqlalchemy as sa
 
-from app.app import app as flask_app
+from app.core.create_app import create_app
 from app.extensions import db
-from app.models.forum import User
+from app.user.models import User
 
 
 # Retrieve a database connection string from the shell environment
@@ -54,10 +54,10 @@ def database(request):
 @pytest.fixture(scope="session")
 def app(database):
     """A Flask test app."""
+    flask_app = create_app("testing")
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = DB_CONN
     with flask_app.app_context():
         yield flask_app
-    # return flask_app
 
 
 @pytest.fixture(scope="session")

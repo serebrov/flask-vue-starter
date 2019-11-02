@@ -13,6 +13,9 @@ class Config:
     SQLALCHEMY_DATABASE_URI_ALEMBIC = os.getenv("SQLALCHEMY_DATABASE_URI_ALEMBIC")
     SQLALCHEMY_DATABASE_URI_CELERY = os.getenv("SQLALCHEMY_DATABASE_URI_CELERY")
 
+    # flask-rest-api
+    OPENAPI_VERSION = "3.0.2"
+
 
 class LocalConfig(Config):
     # Flask's general settings
@@ -24,4 +27,31 @@ class LocalConfig(Config):
     )  # noqa
 
 
-config = {"local": LocalConfig}
+class TestingConfig(Config):
+    """Unit testing settings."""
+
+    DEBUG = True
+    EXPLAIN_TEMPLATE_LOADING = False
+    JSONIFY_PRETTYPRINT_REGULAR = True
+
+
+class DevelopConfig(Config):
+    """Develop environment settings."""
+
+    DEBUG = os.environ.get("DEBUG", "False") == "True"
+    JSONIFY_PRETTYPRINT_REGULAR = DEBUG
+
+
+class ProductionConfig(Config):
+    """Production environment settings."""
+
+    DEBUG = os.environ.get("DEBUG", "False") == "True"
+    JSONIFY_PRETTYPRINT_REGULAR = DEBUG
+
+
+config = {
+    "local": LocalConfig,
+    "testing": TestingConfig,
+    "develop": DevelopConfig,
+    "production": ProductionConfig,
+}
