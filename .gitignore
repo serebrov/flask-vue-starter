@@ -8,3 +8,8 @@ Session.vim
 *.tags
 
 node_modules
+
+backend/.coverage
+backend/htmlcov
+
+frontend/coverage

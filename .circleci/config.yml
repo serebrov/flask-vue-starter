@@ -25,7 +25,9 @@ jobs:
       - run: cd backend && pip install --user -r requirements-dev.txt
       - run: cd backend && python -m mypy .
       - run: cd backend && python -m flake8 .
-      - run: cd backend && python -m pytest
+      - run: cd backend && python -m pytest --cov app --cov-report=html
+      - store_artifacts:
+          path: backend/htmlcov
 
   frontend: # job name
     docker:
@@ -37,7 +39,9 @@ jobs:
       - run: cd frontend && yarn install
       - run: cd frontend && yarn prettier-check
       - run: cd frontend && yarn lint
-      - run: cd frontend && yarn test:unit
+      - run: cd frontend && yarn test:unit-coverage
+      - store_artifacts:
+          path: frontend/coverage
 
 workflows:
   version: 2
