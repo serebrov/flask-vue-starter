@@ -53,3 +53,14 @@ def test_user_update(client, user_factory):
             "email": "name.new@example.com",
         }
     }
+
+
+@pytest.mark.usefixtures("db_session")
+def test_user_delete(client, user_factory):
+    user = user_factory("name", "name@example.com")
+    resp = client.delete(f"/api/users/{user.id}")
+    assert resp.status_code == 200
+
+    assert json.loads(resp.data) == {
+        "data": {"id": str(user.id), "username": "name", "email": "name@example.com"}
+    }
