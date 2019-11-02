@@ -29,7 +29,7 @@ jobs:
 
   frontend: # job name
     docker:
-      - image: circleci/node:8.11.2
+      - image: circleci/node:10.16.0
     parallelism: 1
     working_directory: ~/app
     steps:
