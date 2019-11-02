@@ -37,3 +37,19 @@ def test_user_create(client):
             "id": EqualsUUIDString(),
         }
     }
+
+
+@pytest.mark.usefixtures("_db")
+def test_user_update(client, user_factory):
+    user = user_factory("name", "name@example.com")
+    data = {"username": "nameNew", "email": "name.new@example.com"}
+    resp = client.post(f"/api/users/{user.id}", data=json.dumps(data))
+    assert resp.status_code == 200
+
+    assert json.loads(resp.data) == {
+        "data": {
+            "id": str(user.id),
+            "username": "nameNew",
+            "email": "name.new@example.com",
+        }
+    }
