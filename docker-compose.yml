@@ -17,7 +17,7 @@ services:
     command: flask run
     # command: /bin/bash -c "sleep infinity & wait"
     volumes:
-      - ./backend:/src
+      - ./backend:/src:cached
     ports:
       - "5000:5000"
     environment:
@@ -29,12 +29,12 @@ services:
 
   frontend:
     restart: always
-    user: "${UID}:${GID}"
     build:
       context: frontend
       dockerfile: Dockerfile
+    user: "${UID}:${GID}"
     volumes:
-      - ./frontend:/src
+      - ./frontend:/src:cached
     ports:
       - "8080:8080"
     command: npm run serve
