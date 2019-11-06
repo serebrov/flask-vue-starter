@@ -8,5 +8,7 @@ module.exports = {
         target: 'http://backend:5000/'
       }
     }*/
+    // https://github.com/vuejs/vue-cli/issues/4557
+    progress: false,
   },
 }
