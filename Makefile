@@ -9,7 +9,6 @@ up:
 
 build:
 	$(DOCKER_COMPOSE) build
-	$(FRONTEND) bash -c "node --version && yarn install"
 
 recreate-local-db:
 	$(DOCKER_COMPOSE) stop backend
@@ -25,7 +24,7 @@ test:
 	$(MAKE) frontend-test
 
 backend-test:
-	$(DOCKER_COMPOSE) exec backend pytest -s --cov app --cov-report=html
+	$(DOCKER_COMPOSE) exec backend bash -c "source venv/bin/activate && pytest -s --cov app --cov-report=html"
 
 backend-bash:
 	# bash shell that is configured to use 'forum' database,

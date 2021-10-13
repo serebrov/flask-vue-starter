@@ -3,16 +3,15 @@ version: '3'
 services:
   backend:
     restart: always
-    build:
-      context: backend
-      dockerfile: Dockerfile
+    image: python:3.7
     # User setting to have files with correct permissions on the host.
     # Requires export $UID=$UID and export $GID=$GID somewhere (~/.bashrc or ~/.zshrc)
-    # This is becuase UID and GID are shell variables, not env variables,
+    # This is because UID and GID are shell variables, not env variables,
     # so it doesn't work without export.
     # See also: https://github.com/docker/compose/issues/2380
     user: "${UID}:${GID}"
-    # Entrypoint installs python dependencies if needed.
+    # Entrypoint activates virtual environment and refreshes dependencies
+    working_dir: /src
     entrypoint: ./docker-entrypoint.sh
     command: flask run
     # command: /bin/bash -c "sleep infinity & wait"
@@ -32,15 +31,18 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+      args:
+        - UID=$UID
+        - GID=$GID
+    user: "node"
     command: /bin/bash -c "yarn install && yarn serve"
-    user: "${UID}:${GID}"
     volumes:
       - ./frontend:/src:cached
     ports:
       - "8080:8080"
 
   postgresql:
-    image: postgres:11.2
+    image: postgres:14.0-bullseye
     user: "${UID}:${GID}"
     environment:
       POSTGRES_USER: testuser
@@ -48,4 +50,4 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker_data/postgresql:/var/lib/postgresql/data
+      - ./data/postgresql:/var/lib/postgresql/data

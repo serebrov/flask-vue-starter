@@ -1,4 +1,4 @@
-docker_data
+data
 venv
 node_modules
 __pycache__
