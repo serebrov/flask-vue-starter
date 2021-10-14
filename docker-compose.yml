@@ -42,7 +42,7 @@ services:
       - "8080:8080"
 
   postgresql:
-    image: postgres:13.0
+    image: postgres:13
     user: "${UID}:${GID}"
     environment:
       POSTGRES_USER: testuser
