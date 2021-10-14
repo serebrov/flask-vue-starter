@@ -1,4 +1,4 @@
-FROM node:16.11-bullseye
+FROM node:16.11
 
 # Install global NPM dependencies in non-root user directory
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#global-npm-dependencies
