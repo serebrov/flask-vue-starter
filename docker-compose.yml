@@ -3,24 +3,26 @@ version: '3'
 services:
   backend:
     restart: always
-    image: python:3.7
-    # User setting to have files with correct permissions on the host.
-    # Requires export $UID=$UID and export $GID=$GID somewhere (~/.bashrc or ~/.zshrc)
-    # This is because UID and GID are shell variables, not env variables,
-    # so it doesn't work without export.
-    # See also: https://github.com/docker/compose/issues/2380
-    user: "${UID}:${GID}"
-    # Entrypoint activates virtual environment and refreshes dependencies
-    working_dir: /src
+    build:
+      context: backend
+      dockerfile: Dockerfile
+      args:
+        # Services that use host files need to run with the same UID/GID as the host
+        # user for these files to be accessible in both host and docker.
+        # Here, `UID` and `GID` are forwarded as build args to create the user.
+        # Requires `export UID=$UID` and `export GID=$GID` somewhere (~/.bashrc or ~/.zshrc).
+        # See also: https://github.com/docker/compose/issues/2380
+        UID: $UID
+        GID: $GID
+
     entrypoint: ./docker-entrypoint.sh
     command: flask run
-    # command: /bin/bash -c "sleep infinity & wait"
     volumes:
-      - ./backend:/src:cached
+      - ./backend:/backend
     ports:
       - "5000:5000"
     environment:
-      FLASK_APP: /src/app/app.py
+      FLASK_APP: /backend/app/app.py
       FLASK_RUN_HOST: 0.0.0.0
       FLASK_CONFIG: local
       SQLALCHEMY_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/forum'
@@ -37,7 +39,7 @@ services:
     user: "node"
     command: /bin/bash -c "yarn install && yarn serve"
     volumes:
-      - ./frontend:/src:cached
+      - ./frontend:/frontend
     ports:
       - "8080:8080"
 

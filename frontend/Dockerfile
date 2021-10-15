@@ -9,7 +9,9 @@ ENV PATH=$PATH:/home/node/.npm-global/bin
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 ARG GID
 ARG UID
-# RUN groupmod -g $GID node && usermod -u $UID -g $GID node
-RUN usermod -u $UID -g $GID node
 
-WORKDIR /src
+# The -o option permits to add a group with a non-unique GID.
+# It fixes the "groupadd: GID '20' already exists" error on Mac.
+RUN groupmod -o -g $GID node && usermod -u $UID -g $GID node
+
+WORKDIR /frontend

@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-if [ ! -d "/src/venv" ]; then
+if [ ! -d "/backend/venv" ]; then
   # Create new virtual environment
-  python3 -m venv /src/venv
+  python3 -m venv /backend/venv
 else
   # Activate existing virtual environment
-  source /src/venv/bin/activate
+  source /backend/venv/bin/activate
 fi
 
 # Always refresh dependencies
