@@ -1,11 +1,14 @@
-FROM python:3
+FROM python:3.7
 
-RUN pip install virtualenv
+ENV PATH=$PATH:/home/user/.local/bin
 
-WORKDIR /src
+ARG UID
+ARG GID
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-COPY requirements-dev.txt ./
-RUN pip install --no-cache-dir -r requirements-dev.txt
-# COPY . .
+# The -o option permits to add a group with a non-unique GID.
+# It fixes the "groupadd: GID '20' already exists" error on Mac.
+RUN groupadd -o -g $GID user
+RUN useradd -m -u $UID -g user user
+USER user
+
+WORKDIR /backend

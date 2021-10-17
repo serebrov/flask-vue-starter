@@ -6,22 +6,23 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
-    # User setting to have files with correct permissions on the host.
-    # Requires export $UID=$UID and export $GID=$GID somewhere (~/.bashrc or ~/.zshrc)
-    # This is becuase UID and GID are shell variables, not env variables,
-    # so it doesn't work without export.
-    # See also: https://github.com/docker/compose/issues/2380
-    user: "${UID}:${GID}"
-    # Entrypoint installs python dependencies if needed.
+      args:
+        # Services that use host files need to run with the same UID/GID as the host
+        # user for these files to be accessible in both host and docker.
+        # Here, `UID` and `GID` are forwarded as build args to create the user.
+        # Requires `export UID=$UID` and `export GID=$GID` somewhere (~/.bashrc or ~/.zshrc).
+        # See also: https://github.com/docker/compose/issues/2380
+        UID: $UID
+        GID: $GID
+
     entrypoint: ./docker-entrypoint.sh
     command: flask run
-    # command: /bin/bash -c "sleep infinity & wait"
     volumes:
-      - ./backend:/src:cached
+      - ./backend:/backend
     ports:
       - "5000:5000"
     environment:
-      FLASK_APP: /src/app/app.py
+      FLASK_APP: /backend/app/app.py
       FLASK_RUN_HOST: 0.0.0.0
       FLASK_CONFIG: local
       SQLALCHEMY_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/forum'
@@ -32,15 +33,18 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+      args:
+        - UID=$UID
+        - GID=$GID
+    user: "node"
     command: /bin/bash -c "yarn install && yarn serve"
-    user: "${UID}:${GID}"
     volumes:
-      - ./frontend:/src:cached
+      - ./frontend:/frontend
     ports:
       - "8080:8080"
 
   postgresql:
-    image: postgres:11.2
+    image: postgres:13
     user: "${UID}:${GID}"
     environment:
       POSTGRES_USER: testuser
@@ -48,4 +52,4 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker_data/postgresql:/var/lib/postgresql/data
+      - ./data/postgresql:/var/lib/postgresql/data
