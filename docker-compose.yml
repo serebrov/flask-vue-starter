@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   backend:
     restart: always
@@ -17,6 +15,8 @@ services:
 
     entrypoint: ./docker-entrypoint.sh
     command: flask run
+    depends_on:
+      - postgresql
     volumes:
       - ./backend:/backend
     ports:
@@ -38,6 +38,8 @@ services:
         - GID=$GID
     user: "node"
     command: /bin/bash -c "yarn install && yarn serve"
+    depends_on:
+      - backend
     volumes:
       - ./frontend:/frontend
     ports:
