@@ -4,7 +4,7 @@ let $axios = axios.create({
   // TODO: for some reasone devServer.proxy setting
   // in the vue.config.js doesn't work
   // https://cli.vuejs.org/config/#devserver
-  // So temorary, we set the full URL here
+  // So temporary, we set the full URL here
   // baseURL: 'http://localhost:5000/api/',
   baseURL: 'http://localhost:5000/api/',
   timeout: 5000,
