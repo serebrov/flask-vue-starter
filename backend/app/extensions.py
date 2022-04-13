@@ -13,7 +13,7 @@ api = Api()
 
 
 def init_app_extensions(app: Flask):
-    """Intitialize the extensions with app instance."""
+    """Initialize the extensions with app instance."""
     db.init_app(app)
     api.init_app(app)
     migrate.init_app(app, db)
