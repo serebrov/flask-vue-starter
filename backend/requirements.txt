@@ -15,7 +15,7 @@ Flask-Migrate==2.5.2
 marshmallow==3.2.1
 webargs==5.5.2
 flask-rest-api==0.17.1
-apispec==3.0.0
+apispec==5.1.1
 
 pytest==4.4.0  # 5.2.2
 pytest-cov==2.7.1  # 2.8.1
