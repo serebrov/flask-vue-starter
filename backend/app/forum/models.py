@@ -3,7 +3,7 @@ from datetime import datetime
 from app.extensions import db
 from app.user.models import User
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import backref
 from sqlalchemy.schema import Column
 
 
@@ -20,7 +20,7 @@ class Post(db.Model):
         db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow
     )
 
-    user = relationship(User, backref=backref("posts", lazy="dynamic"))
+    user = db.relationship(User, backref=backref("posts", lazy="dynamic"))
 
     def __repr__(self):
         return "<Post %r>" % self.title

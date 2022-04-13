@@ -4,7 +4,7 @@ jobs:
     docker: # Specifies the primary container image,
     # see circleci.com/docs/2.0/circleci-images/ for
     # the list of pre-built CircleCI images on dockerhub.
-      - image: circleci/python:3.7.1
+      - image: circleci/python:3.7.12
         environment:
           SQLALCHEMY_TEST_DATABASE_URI: 'postgresql://testuser:testpw@localhost:5432/forumtest'
 
@@ -23,7 +23,7 @@ jobs:
       - checkout
       - run: cd backend && pip install --user -r requirements.txt
       - run: cd backend && pip install --user -r requirements-dev.txt
-      - run: cd backend && python -m mypy .
+      - run: cd backend && python -m mypy  --install-types --non-interactive .
       - run: cd backend && python -m flake8 .
       - run: cd backend && python -m pytest --cov app --cov-report=html
       - store_artifacts:

@@ -3,8 +3,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-from flask_rest_api import Api
-from flask_rest_api.arguments import ArgumentsMixin
+from flask_smorest import Api
+from flask_smorest.arguments import ArgumentsMixin
 
 db = SQLAlchemy()
 migrate = Migrate()

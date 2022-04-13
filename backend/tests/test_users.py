@@ -1,4 +1,5 @@
 import json
+
 import pytest
 
 from .utils.equals import EqualsUUIDString
@@ -28,7 +29,11 @@ def test_users(client, user_factory):
 @pytest.mark.usefixtures("db_session")
 def test_user_create(client):
     data = {"username": "test", "email": "test@example.com"}
-    resp = client.post("/api/users/", data=json.dumps(data))
+    resp = client.post(
+        "/api/users/",
+        data=json.dumps(data),
+        headers={"Content-Type": "application/json"},
+    )
     assert resp.status_code == 201
     assert json.loads(resp.data) == {
         "data": {
@@ -43,7 +48,11 @@ def test_user_create(client):
 def test_user_update(client, user_factory):
     user = user_factory("name", "name@example.com")
     data = {"username": "nameNew", "email": "name.new@example.com"}
-    resp = client.post(f"/api/users/{user.id}", data=json.dumps(data))
+    resp = client.post(
+        f"/api/users/{user.id}",
+        data=json.dumps(data),
+        headers={"Content-Type": "application/json"},
+    )
     assert resp.status_code == 200
 
     assert json.loads(resp.data) == {
