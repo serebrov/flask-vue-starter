@@ -13,7 +13,9 @@ class Config:
     SQLALCHEMY_DATABASE_URI_ALEMBIC = os.getenv("SQLALCHEMY_DATABASE_URI_ALEMBIC")
     SQLALCHEMY_DATABASE_URI_CELERY = os.getenv("SQLALCHEMY_DATABASE_URI_CELERY")
 
-    # flask-rest-api
+    # flask-smorest
+    API_TITLE = "Flask Vue Starter API"
+    API_VERSION = "0.1"
     OPENAPI_VERSION = "3.0.2"
 
 

@@ -1,27 +1,25 @@
+from app.config import config
+from app.extensions import api, init_app_extensions, webargs
 from flask import Flask, jsonify
 from flask_cors import CORS
 from marshmallow import ValidationError
-
-from app.extensions import webargs
-from app.config import config
-from app.extensions import api, init_app_extensions
-from app.utils.types import JSON
-
-# from app.auth.authentication import basic_auth
+from typing import Any
 
 from .cli import register_cli_handlers
+
+# from app.auth.authentication import basic_auth
 
 
 def register_api(app: Flask) -> None:
     """Register blueprints and routes."""
-    from app.user.api import blueprint as user_blueprint
     from app.forum.api import blueprint as forum_blueprint
+    from app.user.api import blueprint as user_blueprint
 
     api.register_blueprint(user_blueprint)
     api.register_blueprint(forum_blueprint)
 
     @app.route("/api")
-    def hello() -> JSON:
+    def hello() -> Any:
         return jsonify({"message": "Hello"})
 
 
@@ -32,7 +30,13 @@ def register_api_error_handlers(app: Flask) -> None:
     """
 
     @webargs.error_handler
-    def handle_error(error, req, schema, status_code, headers):  # type: ignore
+    def handle_error(
+        error, req, schema, error_status_code, error_headers
+    ):  # type: ignore
+        if "json" in error.messages:
+            raise ValidationError(error.messages["json"])
+        if "path" in error.messages:
+            raise ValidationError(error.messages["path"])
         raise ValidationError(error.messages)
 
     @app.errorhandler(ValidationError)
