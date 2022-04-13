@@ -1,0 +1,16 @@
+version: 2
+updates:
+
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: auto
+
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "sitemap"
+    versioning-strategy: increase
