@@ -44,7 +44,8 @@ frontend-test:
 
 # Run linters.
 lint:
-	$(BACKEND) bash -c "mypy . && flake8 . && black --check --diff ."
+	$(BACKEND) bash -c "mypy --install-types --non-interactive . && flake8 ."
+	$(BACKEND) bash -c "black --check --diff ."
 	$(FRONTEND) bash -c "yarn prettier-check"
 	$(FRONTEND) bash -c "yarn lint"
 

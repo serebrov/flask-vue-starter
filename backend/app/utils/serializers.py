@@ -1,10 +1,8 @@
-from uuid import UUID
 from typing import Any, Optional
-
-from marshmallow import Schema, ValidationError
-from marshmallow import post_dump, validate
+from uuid import UUID
 
 from app.utils.types import JSON
+from marshmallow import Schema, ValidationError, post_dump, validate
 
 
 class WrapDataSchema(Schema):
@@ -56,10 +54,11 @@ class UUIDFormat(validate.Validator):
         if type(value) != str and type(value) != UUID:
             raise ValidationError(self._format_error(value, self.message))
 
-        try:
-            UUID(value)
-        except ValueError:
-            raise ValidationError(self._format_error(value, self.message))
+        if type(value) == str:
+            try:
+                UUID(value)
+            except ValueError:
+                raise ValidationError(self._format_error(value, self.message))
 
         return value
 
