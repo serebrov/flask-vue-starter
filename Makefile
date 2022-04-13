@@ -1,4 +1,4 @@
-DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE = docker compose
 PG_URI = postgresql://testuser:testpw@postgresql:5432
 
 BACKEND = @$(DOCKER_COMPOSE) run --rm backend
