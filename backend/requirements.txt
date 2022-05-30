@@ -7,7 +7,7 @@ Flask-SQLAlchemy==2.5.1
 alembic==1.7.7
 Flask-Migrate==3.1.0
 
-flask-smorest==0.37.0
+flask-smorest==0.38.0
 marshmallow==3.15.0
 
 pytest==7.1.1
