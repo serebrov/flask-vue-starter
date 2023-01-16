@@ -10,7 +10,7 @@ Flask-Migrate==3.1.0
 flask-smorest==0.37.0
 marshmallow==3.15.0
 
-pytest==7.1.1
+pytest==7.2.1
 pytest-cov==3.0.0
 # pytest-flask-sqlalchemy==1.0.2
 # Install package from Github, because of the bug: https://github.com/jeancochrane/pytest-flask-sqlalchemy/issues/50
