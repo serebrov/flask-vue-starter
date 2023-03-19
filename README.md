@@ -22,7 +22,7 @@ Backend setup:
 
 Frontend setup:
 
-- [Vue.js 2.6](https://vuejs.org/) with [vue-cli 4.0](https://cli.vuejs.org/)
+- [Vue.js 2.6](https://v2.vuejs.org/) with [vue-cli 4.0](https://cli.vuejs.org/)
 - [Typescript 3.4.5](https://www.typescriptlang.org/)
 - [axios](https://github.com/axios/axios) for HTTP requests
 - [bootstrap-vue](https://bootstrap-vue.js.org/) for UI
