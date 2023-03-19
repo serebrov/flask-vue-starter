@@ -1,6 +1,6 @@
 services:
   backend:
-    restart: always
+    restart: unless-stopped
     build:
       context: backend
       dockerfile: Dockerfile
@@ -29,7 +29,7 @@ services:
       SQLALCHEMY_TEST_DATABASE_URI: 'postgresql://testuser:testpw@postgresql:5432/forumtest'
 
   frontend:
-    restart: always
+    restart: unless-stopped
     build:
       context: frontend
       dockerfile: Dockerfile
