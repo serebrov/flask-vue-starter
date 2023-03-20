@@ -5,7 +5,7 @@ psycopg2-binary==2.9.3
 SQLAlchemy[mypy]==1.4.35
 Flask-SQLAlchemy==2.5.1
 alembic==1.7.7
-Flask-Migrate==3.1.0
+Flask-Migrate==4.0.4
 
 flask-smorest==0.40.0
 marshmallow==3.19.0
