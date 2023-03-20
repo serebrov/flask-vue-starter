@@ -17,4 +17,4 @@ pytest-cov==3.0.0
 # It's fixed: https://github.com/jeancochrane/pytest-flask-sqlalchemy/pull/51
 # But new version is not released yet.
 pytest-flask-sqlalchemy @ git+https://github.com/jeancochrane/pytest-flask-sqlalchemy.git@ea5c5ee935ed2d9cdc56061c243a6004d7c8fe7e
-pytest-mock==3.7.0
+pytest-mock==3.10.0
