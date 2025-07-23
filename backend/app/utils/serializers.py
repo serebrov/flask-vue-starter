@@ -1,26 +1,25 @@
 from typing import Any, Optional
 from uuid import UUID
 
-from app.utils.types import JSON
-from marshmallow import Schema, ValidationError, post_dump, validate
+from marshmallow import Schema, ValidationError, validate
 
 
 class WrapDataSchema(Schema):
     """Wraps data into {"data" : ...} envelop."""
 
-    @post_dump(pass_many=True)
-    def wrap_with_envelope(self, data: JSON, many: bool) -> JSON:
-        """Wrap the `data` into envelop if wrap_data is True."""
-        if self.wrap_data is True:
-            # metadata = {}
-            # if "current_user" in g and g.current_user:
-            #     from app.auth.serializers import UserSchema
+    def dump(self, obj, *, many=None):
+        """Override dump to handle wrapping correctly for both single and many cases."""
+        # Get the many parameter, defaulting to the schema's many setting
+        if many is None:
+            many = self.many
 
-            #     user = UserSchema().dump(g.current_user)
-            #     metadata["user"] = user
-            # return {"data": data, "metadata": metadata}
-            return {"data": data}
-        return data
+        # Perform normal serialization first
+        result = super().dump(obj, many=many)
+
+        # Apply wrapping based on our wrap_data setting
+        if self.wrap_data is True:
+            return {"data": result}
+        return result
 
     def __init__(self, wrap_data: bool = True, *args: Any, **kwargs: Any):
         """Constructor.
@@ -51,10 +50,10 @@ class UUIDFormat(validate.Validator):
         return (self.error or message).format(input=value)
 
     def __call__(self, value: Any) -> Any:
-        if type(value) != str and type(value) != UUID:
+        if type(value) is not str and type(value) is not UUID:
             raise ValidationError(self._format_error(value, self.message))
 
-        if type(value) == str:
+        if type(value) is str:
             try:
                 UUID(value)
             except ValueError:

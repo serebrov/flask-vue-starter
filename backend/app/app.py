@@ -2,6 +2,7 @@
 
 See the actual setup in the `app.core.create_app` module.
 """
+
 import os
 
 from app.core.create_app import create_app

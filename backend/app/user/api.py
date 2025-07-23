@@ -1,4 +1,5 @@
 """User API."""
+
 from app.extensions import db
 from app.utils.types import JSON
 from flask_smorest import Blueprint, abort

@@ -1,4 +1,4 @@
-Flask==2.2.5
+Flask==3.1.1
 Flask-Cors==5.0.0
 
 psycopg2-binary==2.9.9
@@ -7,14 +7,10 @@ Flask-SQLAlchemy==3.0.5
 alembic==1.12.1
 Flask-Migrate==4.1.0
 
-flask-smorest==0.41.0
-marshmallow==3.19.0
+flask-smorest==0.46.1
+marshmallow==4.0.0
 
-pytest==7.2.2
-pytest-cov==3.0.0
-# pytest-flask-sqlalchemy==1.0.2
-# Install package from Github, because of the bug: https://github.com/jeancochrane/pytest-flask-sqlalchemy/issues/50
-# It's fixed: https://github.com/jeancochrane/pytest-flask-sqlalchemy/pull/51
-# But new version is not released yet.
-pytest-flask-sqlalchemy @ git+https://github.com/jeancochrane/pytest-flask-sqlalchemy.git@ea5c5ee935ed2d9cdc56061c243a6004d7c8fe7e
-pytest-mock==3.7.0
+pytest==7.4.4
+pytest-cov==4.1.0
+pytest-flask-sqlalchemy==1.1.0
+pytest-mock==3.11.1

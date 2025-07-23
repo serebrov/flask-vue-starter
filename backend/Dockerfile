@@ -1,6 +1,4 @@
-FROM python:3.7
-
-ENV PATH=$PATH:/home/user/.local/bin
+FROM python:3.12-slim-bookworm
 
 ARG UID
 ARG GID
