@@ -2,7 +2,9 @@ from uuid import UUID
 from typing import Optional
 
 from marshmallow import fields, validates_schema, ValidationError
+from sqlalchemy import select
 
+from app.extensions import db
 from app.utils.serializers import WrapDataSchema
 from app.utils.types import JSON
 from .models import User
@@ -21,12 +23,12 @@ def validate_unique_field(
     Returns:
         Nothing, raises ValidationError if validation failed.
     """
-    query = User.query.filter(getattr(User, name) == value)
+    query = select(User).filter(getattr(User, name) == value)
     if id is not None:
         # Allow updating username or email for the user to the
         # same value.
         query = query.filter(User.id != id)
-    if query.first():
+    if db.session.execute(query).scalars().first():
         raise ValidationError("{} should be unique: {}".format(name, value), name)
 
 

@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 import sqlalchemy as sa
 
 from app.core.create_app import create_app
@@ -44,10 +44,10 @@ def database(request):
 
     engine = create_engine(standard_db)
     connection = engine.connect()
-    connection.execute("commit")
-    connection.execute("drop database if exists {}".format(pg_db))
-    connection.execute("commit")
-    connection.execute("create database {}".format(pg_db))
+    connection.execute(text("commit"))
+    connection.execute(text("drop database if exists {}".format(pg_db)))
+    connection.execute(text("commit"))
+    connection.execute(text("create database {}".format(pg_db)))
     connection.close()
 
 
@@ -82,7 +82,7 @@ def _db(app):
 
 
 @pytest.fixture()
-def user_factory(app, db_session):
+def user_factory(app):
     """Return a function to create a ``User``."""
 
     def factory(username: str, email: str) -> User:
@@ -98,3 +98,18 @@ def user_factory(app, db_session):
 def user(user_factory):
     """Return a ``User``."""
     return user_factory("test", "test@example.com")
+
+
+@pytest.fixture(autouse=True)
+def db_session(app, _db):
+    """Create a database session that automatically rolls back after each test."""
+    with app.app_context():
+        # For simplicity, just yield the session and clean up afterward
+        yield _db.session
+        
+        # Clean up after each test
+        _db.session.rollback()
+        # Remove all data from tables for clean state
+        for table in reversed(_db.metadata.sorted_tables):
+            _db.session.execute(table.delete())
+        _db.session.commit()
