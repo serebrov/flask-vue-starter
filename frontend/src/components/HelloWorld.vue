@@ -4,17 +4,27 @@
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
-      <a href="https://vuejs.org" target="_blank" rel="noopener">Vue 3 documentation</a>.
+      <a href="https://vuejs.org" target="_blank" rel="noopener"
+        >Vue 3 documentation</a
+      >.
     </p>
     <h3>Essential Vue 3 Features</h3>
     <ul>
       <li>
-        <a href="https://vuejs.org/guide/essentials/reactivity-fundamentals.html" target="_blank" rel="noopener">
+        <a
+          href="https://vuejs.org/guide/essentials/reactivity-fundamentals.html"
+          target="_blank"
+          rel="noopener"
+        >
           Composition API
         </a>
       </li>
       <li>
-        <a href="https://vuejs.org/guide/typescript/overview.html" target="_blank" rel="noopener">
+        <a
+          href="https://vuejs.org/guide/typescript/overview.html"
+          target="_blank"
+          rel="noopener"
+        >
           TypeScript Support
         </a>
       </li>
@@ -40,10 +50,14 @@
         <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
       </li>
       <li>
-        <a href="https://discord.com/invite/vue" target="_blank" rel="noopener">Community Chat</a>
+        <a href="https://discord.com/invite/vue" target="_blank" rel="noopener"
+          >Community Chat</a
+        >
       </li>
       <li>
-        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a>
+        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
+          >Twitter</a
+        >
       </li>
       <li>
         <a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a>
@@ -52,18 +66,31 @@
     <h3>Ecosystem</h3>
     <ul>
       <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a>
+        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
+          >vue-router</a
+        >
       </li>
       <li>
-        <a href="https://pinia.vuejs.org" target="_blank" rel="noopener">pinia</a>
+        <a href="https://pinia.vuejs.org" target="_blank" rel="noopener"
+          >pinia</a
+        >
       </li>
       <li>
-        <a href="https://github.com/vuejs/devtools#vue-devtools" target="_blank" rel="noopener">
+        <a
+          href="https://github.com/vuejs/devtools#vue-devtools"
+          target="_blank"
+          rel="noopener"
+        >
           vue-devtools
         </a>
       </li>
       <li>
-        <a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a>
+        <a
+          href="https://github.com/vuejs/awesome-vue"
+          target="_blank"
+          rel="noopener"
+          >awesome-vue</a
+        >
       </li>
     </ul>
   </div>
@@ -78,18 +105,26 @@ defineProps<Props>()
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.hello {
+  margin: var(--spacing-xl) 0;
 }
-ul {
+
+.hello h3 {
+  margin: var(--spacing-xl) 0 var(--spacing-md);
+}
+
+.hello ul {
   list-style-type: none;
   padding: 0;
 }
-li {
+
+.hello li {
   display: inline-block;
-  margin: 0 10px;
+  margin: 0 var(--spacing-sm);
 }
-a {
-  color: #42b983;
+
+.hello a {
+  color: var(--color-primary);
 }
 </style>
+

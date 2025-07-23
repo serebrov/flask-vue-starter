@@ -1,0 +1,73 @@
+/* Base styles - reset, typography, colors */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #42b983;
+  --color-primary-hover: #369970;
+  --color-secondary: #2c3e50;
+  --color-text: #2c3e50;
+  --color-text-muted: #495057;
+  --color-background: #f8f9fa;
+  --color-white: #ffffff;
+  --color-border: #ced4da;
+  --color-border-light: #dee2e6;
+  --color-success: #28a745;
+  --color-info: #007bff;
+  --color-info-hover: #0056b3;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-danger-hover: #a71e2a;
+  --color-light: #f8f9fa;
+  --color-dark: #495057;
+
+  --font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
+  --font-size-sm: 0.875rem;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  --border-radius: 4px;
+  --border-radius-lg: 8px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --transition: 0.2s ease;
+}
+
+body {
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+h1 {
+  font-size: var(--font-size-xxl);
+  margin-bottom: var(--spacing-xl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-lg);
+}

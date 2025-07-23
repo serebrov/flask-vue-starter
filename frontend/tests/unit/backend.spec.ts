@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
-import { backend } from '../backend'
-import type { User, ApiResponse } from '../backend'
+import { backend } from '../../src/backend'
+import type { User, ApiResponse } from '../../src/backend'
 
 // Mock axios
 vi.mock('axios', () => {
@@ -12,10 +12,10 @@ vi.mock('axios', () => {
         delete: vi.fn(),
         interceptors: {
           request: { use: vi.fn() },
-          response: { use: vi.fn() }
-        }
-      })
-    }
+          response: { use: vi.fn() },
+        },
+      }),
+    },
   }
 })
 
@@ -24,17 +24,17 @@ describe('Backend API', () => {
     const mockUser: User = {
       id: '123',
       username: 'test',
-      email: 'test@example.com'
+      email: 'test@example.com',
     }
-    
+
     const mockResponse: ApiResponse<User[]> = {
-      data: [mockUser]
+      data: [mockUser],
     }
-    
+
     expect(mockUser.id).toBe('123')
     expect(mockResponse.data).toHaveLength(1)
   })
-  
+
   it('should have all required API methods', () => {
     expect(backend.getUsers).toBeDefined()
     expect(backend.getUser).toBeDefined()

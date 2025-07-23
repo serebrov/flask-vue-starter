@@ -7,17 +7,17 @@ const $axios = axios.create({
 })
 
 // Request Interceptor
-$axios.interceptors.request.use(function(config) {
+$axios.interceptors.request.use(function (config) {
   config.headers['Authorization'] = 'Fake Token'
   return config
 })
 
 // Response Interceptor to handle and log errors
 $axios.interceptors.response.use(
-  function(response) {
+  function (response) {
     return response
   },
-  function(error) {
+  function (error) {
     // Handle Error
     return Promise.reject(error)
   },

@@ -1,96 +1,71 @@
 <template>
-  <div>
+  <div class="home">
+    <h1>User Manager</h1>
 
-    <div class="container mx-auto mt-4 px-4">
-      <h1 class="text-3xl font-bold mb-4">User Manager</h1>
-      
-      <Message v-if="isLoading" severity="info" :closable="false">Loading...</Message>
-      
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div class="lg:col-span-3">
-          <DataTable 
-            :value="users" 
-            :loading="isLoading"
-            class="p-datatable-striped"
-            responsiveLayout="scroll"
-            :paginator="true"
-            :rows="10"
-          >
-            <Column field="id" header="ID" sortable></Column>
-            <Column field="username" header="Username" sortable></Column>
-            <Column field="email" header="Email" sortable></Column>
-            <Column header="Actions">
-              <template #body="slotProps">
-                <div class="flex gap-2">
-                  <Button 
-                    label="Edit" 
-                    icon="pi pi-pencil" 
-                    size="small"
-                    @click="populateUserToEdit(slotProps.data)"
-                  />
-                  <Button 
-                    label="Delete" 
-                    icon="pi pi-trash" 
-                    severity="danger" 
-                    size="small"
-                    @click="deleteUser(slotProps.data.id)"
-                  />
-                </div>
-              </template>
-            </Column>
-          </DataTable>
-        </div>
-        
-        <div class="lg:col-span-1">
-          <Card>
-            <template #title>
-              {{ model.id ? `Edit User ID#${model.id}` : 'New User' }}
-            </template>
-            <template #content>
-              <form @submit.prevent="saveUser" class="space-y-4">
-                <div>
-                  <label for="username" class="block text-sm font-medium mb-2">Username</label>
-                  <InputText
-                    id="username"
-                    v-model="model.username"
-                    class="w-full"
-                    placeholder="Enter username"
-                  />
-                </div>
-                
-                <div>
-                  <label for="email" class="block text-sm font-medium mb-2">Email</label>
-                  <Textarea
-                    id="email"
-                    v-model="model.email"
-                    class="w-full"
-                    :rows="3"
-                    placeholder="Enter email"
-                  />
-                </div>
-                
-                <div>
-                  <Button 
-                    type="submit" 
-                    label="Save User" 
-                    icon="pi pi-save"
-                    class="w-full"
-                  />
-                </div>
-              </form>
-            </template>
-          </Card>
-          
-          <div v-if="errors.length > 0" class="mt-4">
-            <Message 
-              v-for="error in errors" 
-              :key="error" 
-              severity="error" 
-              :closable="false"
-              class="mb-2"
-            >
+    <div v-if="isLoading" class="loading">Loading...</div>
+
+    <div class="content-grid">
+      <div class="users-section">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <button @click="populateUserToEdit(user)" class="btn btn-info">
+                  Edit
+                </button>
+                <button @click="deleteUser(user.id)" class="btn btn-danger">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-section">
+        <div class="card">
+          <h3>{{ model.id ? `Edit User ID#${model.id}` : 'New User' }}</h3>
+          <form @submit.prevent="saveUser">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                v-model="model.username"
+                placeholder="Enter username"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                v-model="model.email"
+                placeholder="Enter email"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full-width">Save User</button>
+          </form>
+
+          <div v-if="errors.length > 0" class="errors">
+            <div v-for="error in errors" :key="error" class="error">
               {{ error }}
-            </Message>
+            </div>
           </div>
         </div>
       </div>
@@ -158,7 +133,9 @@ function parseError(errorObj: any) {
   error.value = errorObj
   errors.value = []
   if (errorObj?.response?.data?.errors) {
-    for (const [field, message] of Object.entries(errorObj.response.data.errors)) {
+    for (const [field, message] of Object.entries(
+      errorObj.response.data.errors,
+    )) {
       errors.value.push(`${field}: ${message}`)
     }
   } else if (errorObj?.message) {
@@ -168,111 +145,8 @@ function parseError(errorObj: any) {
 </script>
 
 <style scoped>
-.hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 4rem 2rem;
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.container {
-  max-width: 1200px;
-}
-
-.grid {
-  display: grid;
-}
-
-.grid-cols-1 {
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-@media (min-width: 1024px) {
-  .lg\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  
-  .lg\:col-span-3 {
-    grid-column: span 3 / span 3;
-  }
-  
-  .lg\:col-span-1 {
-    grid-column: span 1 / span 1;
-  }
-}
-
-.gap-4 {
-  gap: 1rem;
-}
-
-.space-y-4 > * + * {
-  margin-top: 1rem;
-}
-
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-}
-
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.font-medium {
-  font-weight: 500;
-}
-
-.text-gray-600 {
-  color: #6b7280;
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.mt-4 {
-  margin-top: 1rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.block {
-  display: block;
-}
-
-.flex {
-  display: flex;
-}
-
-.w-full {
-  width: 100%;
+.home {
+  max-width: 100%;
 }
 </style>
+

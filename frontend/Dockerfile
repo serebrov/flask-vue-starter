@@ -18,24 +18,3 @@ ARG UID
 RUN groupmod -o -g $GID node && usermod -u $UID -g $GID node
 
 WORKDIR /frontend
-
-# Change ownership of the workdir to node user
-RUN chown -R node:node /frontend
-
-# Switch to node user
-USER node
-
-# Copy package files first (for better Docker layer caching)
-COPY --chown=node:node package*.json ./
-
-# Install dependencies inside the container (for correct architecture)
-RUN npm ci
-
-# Copy source code
-COPY --chown=node:node . .
-
-# Expose Vite dev server port
-EXPOSE 5173
-
-# Start Vite development server
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

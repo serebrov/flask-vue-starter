@@ -36,20 +36,21 @@ backend-bash:
 	$(BACKEND) bash
 
 frontend-bash:
-	$(FRONTEND) bash
+	$(FRONTEND) sh
 
 frontend-test:
-	$(FRONTEND) yarn test:unit-coverage
-	# $(FRONTEND) yarn test:e2e --headless
+	$(FRONTEND) npm run test:unit-coverage
 
 # Run linters.
 lint:
 	$(BACKEND) bash -c "mypy --install-types --non-interactive . && flake8 ."
 	$(BACKEND) bash -c "black --check --diff ."
-	$(FRONTEND) bash -c "yarn prettier-check"
-	$(FRONTEND) bash -c "yarn lint"
+	$(FRONTEND) npm run prettier-check
+	$(FRONTEND) npm run lint
+	# TODO: this is new, fails with an error
+	# $(FRONTEND) npm run type-check
 
 # Format code.
 format-code:
 	$(BACKEND) bash -c "black ."
-	$(FRONTEND) bash -c "yarn format"
+	$(FRONTEND) npm run format
