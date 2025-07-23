@@ -14,10 +14,9 @@ class User(db.Model):
         if not id:
             id = uuid4()
         self.id = id
-        self.created_at = datetime.utcnow()
-        self.last_modified_at = self.created_at
         self.username = username
         self.email = email
+        # Let SQLAlchemy handle the timestamps via column defaults
 
     def __repr__(self):
         return "<User %r>" % self.username
