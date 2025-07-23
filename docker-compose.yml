@@ -47,7 +47,6 @@ services:
 
   postgresql:
     image: postgres:13
-    user: "${UID}:${GID}"
     environment:
       POSTGRES_USER: testuser
       POSTGRES_PASSWORD: testpw
