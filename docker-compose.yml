@@ -36,14 +36,14 @@ services:
       args:
         - UID=$UID
         - GID=$GID
-    user: "node"
-    command: /bin/bash -c "yarn install && yarn serve"
     depends_on:
       - backend
     volumes:
       - ./frontend:/frontend
+      # Exclude node_modules to avoid architecture conflicts
+      - /frontend/node_modules
     ports:
-      - "8080:8080"
+      - "8080:5173"
 
   postgresql:
     image: postgres:13
