@@ -106,7 +106,7 @@ def db_session(app, _db):
     with app.app_context():
         # For simplicity, just yield the session and clean up afterward
         yield _db.session
-        
+
         # Clean up after each test
         _db.session.rollback()
         # Remove all data from tables for clean state
