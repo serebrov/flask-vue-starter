@@ -38,11 +38,14 @@ class UserSchema(WrapDataSchema):
     email = fields.Email(required=True)
 
     @validates_schema
-    def validate_unique_fields(self, data: JSON, partial: bool, many: bool) -> None:
+    def validate_unique_fields(
+        self, data: JSON, partial: bool, many: bool, **kwargs
+    ) -> None:
         """Valdiate username and email to make sure they are unique."""
         id = None
-        if "user" in self.context:
-            id = self.context["user"].id
+        context = getattr(self, "context", {})
+        if "user" in context:
+            id = context["user"].id
 
         username = data.get("username")
         validate_unique_field("username", username, id)

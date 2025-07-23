@@ -1,4 +1,5 @@
 """Forum API."""
+
 from flask_smorest import Blueprint
 
 blueprint = Blueprint(

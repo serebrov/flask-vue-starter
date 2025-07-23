@@ -13,9 +13,9 @@ Backend is powered by Flask, flask-rest-api, marshmallow and SQLAlchemy to creat
 
 Backend setup:
 
-- [Flask 2](http://flask.pocoo.org/)
-- [SQLAlchemy 1.4](https://www.sqlalchemy.org/) and [PostgreSQL 13.0](https://www.postgresql.org/)
-- [Marshmallow 3](https://marshmallow.readthedocs.io/) for validation and serialization
+- [Flask 3.1](http://flask.pocoo.org/) with Python 3.12
+- [SQLAlchemy 2.0](https://www.sqlalchemy.org/) and [PostgreSQL 13.0](https://www.postgresql.org/)
+- [Marshmallow 4](https://marshmallow.readthedocs.io/) for validation and serialization
 - Testing with [pytest](https://docs.pytest.org/en/latest/)
 - Linting with [mypy](http://mypy-lang.org/), [flake8](http://flake8.pycqa.org/en/latest/) and [black](https://github.com/ambv/black)
 - Code formatting with [black](https://github.com/ambv/black)

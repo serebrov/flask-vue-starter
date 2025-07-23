@@ -19,21 +19,21 @@ class EqualsInteger:
     """
 
     def __eq__(self, other):
-        return type(other) == int
+        return type(other) is int
 
 
 class EqualsString:
     """Helper to check that the value we compare to is string."""
 
     def __eq__(self, other):
-        return type(other) == str
+        return type(other) is str
 
 
 class EqualsUUIDString:
     """Helper to check that the value we compare to is string with UUID."""
 
     def __eq__(self, other):
-        if type(other) != str:
+        if type(other) is not str:
             return False
         try:
             UUID(other)
@@ -63,7 +63,7 @@ class EqualsDatetimeString:
 
     def __eq__(self, other):
         dt = datetime.strptime(other, self._date_format)
-        return type(dt) == datetime
+        return type(dt) is datetime
 
 
 class EqualsAnything:
@@ -100,18 +100,18 @@ class EqualsPartialDict:
     """
 
     def __init__(self, expected_dict, chain="root"):
-        assert type(expected_dict) == dict
+        assert type(expected_dict) is dict
         self.expected_dict = expected_dict
         self.chain = chain
 
     def __eq__(self, other):
-        assert type(other) == dict
+        assert type(other) is dict
         for key in self.expected_dict:
             expected_value = self.expected_dict[key]
             other_value = other[key]
 
-            if type(expected_value) == dict:
-                assert type(other_value) == dict
+            if type(expected_value) is dict:
+                assert type(other_value) is dict
                 chain = self.chain + " -> " + key
                 expected = EqualsPartialDict(expected_value, chain)
                 assert expected == other_value
