@@ -2,6 +2,7 @@
 from app.extensions import db
 from app.utils.types import JSON
 from flask_smorest import Blueprint, abort
+from sqlalchemy import select
 
 from .models import User
 from .serializers import UserSchema
@@ -14,13 +15,13 @@ blueprint = Blueprint(
 @blueprint.route("/", methods=["GET"])
 @blueprint.response(200, UserSchema(many=True))
 def users_get():
-    return User.query.all()
+    return db.session.execute(select(User)).scalars().all()
 
 
 @blueprint.route("/<string:id>", methods=["GET"])
 @blueprint.response(200, UserSchema())
 def user_get(id: str):
-    user = User.query.get(id)
+    user = db.session.get(User, id)
     if user is None:
         abort(404, message="User not found.")
     return user
@@ -40,7 +41,7 @@ def user_create(user_data: JSON):
 @blueprint.arguments(UserSchema())
 @blueprint.response(200, UserSchema())
 def user_update(user_data: JSON, id: str):
-    user = User.query.get(id)
+    user = db.session.get(User, id)
     if not user:
         abort(404, message="User not found.")
 
@@ -56,7 +57,7 @@ def user_update(user_data: JSON, id: str):
 @blueprint.route("/<string:id>", methods=["DELETE"])
 @blueprint.response(200, UserSchema())
 def user_delete(id: str):
-    user = User.query.get(id)
+    user = db.session.get(User, id)
     if not user:
         abort(404, message="User not found.")
 

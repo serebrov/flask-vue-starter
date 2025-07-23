@@ -1,22 +1,21 @@
 from datetime import datetime
 
-from app.extensions import db
+from app.extensions import db, Model
 from app.user.models import User
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import backref
-from sqlalchemy.schema import Column
 
 
-class Post(db.Model):
-    id = Column(UUID(as_uuid=True), primary_key=True)
+class Post(Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     text = db.Column(db.Text, nullable=False)
 
-    created_by_user_id = Column(
+    created_by_user_id = db.Column(
         UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False
     )
-    created_at = Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow
     )
 
@@ -26,16 +25,16 @@ class Post(db.Model):
         return "<Post %r>" % self.title
 
 
-class Comment(db.Model):
-    id = Column(UUID(as_uuid=True), primary_key=True)
-    post_id = Column(UUID(as_uuid=True), db.ForeignKey("post.id"), primary_key=True)
+class Comment(Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True)
+    post_id = db.Column(UUID(as_uuid=True), db.ForeignKey("post.id"), primary_key=True)
     text = db.Column(db.Text, nullable=False)
 
-    created_by_user_id = Column(
+    created_by_user_id = db.Column(
         UUID(as_uuid=True), db.ForeignKey("user.id"), nullable=False
     )
-    created_at = Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow
     )
 

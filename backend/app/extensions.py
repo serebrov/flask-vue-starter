@@ -1,3 +1,4 @@
+from typing import TYPE_CHECKING
 from flask import Flask
 
 from flask_sqlalchemy import SQLAlchemy
@@ -10,6 +11,13 @@ db = SQLAlchemy()
 migrate = Migrate()
 webargs = ArgumentsMixin.ARGUMENTS_PARSER
 api = Api()
+
+# The Model is dynmaically defined in Flask-SQLAlchemy, so mypy does not recognize it.
+# See https://github.com/python/mypy/issues/8603#issuecomment-1929137094
+if TYPE_CHECKING:
+    from flask_sqlalchemy.model import Model
+else:
+    Model = db.Model
 
 
 def init_app_extensions(app: Flask):

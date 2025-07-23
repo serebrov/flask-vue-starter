@@ -1,13 +1,13 @@
-Flask==2.2.3
-Flask-Cors==3.0.10
+Flask==2.2.5
+Flask-Cors==5.0.0
 
-psycopg2-binary==2.9.3
-SQLAlchemy[mypy]==1.4.35
-Flask-SQLAlchemy==2.5.1
-alembic==1.7.7
-Flask-Migrate==3.1.0
+psycopg2-binary==2.9.9
+SQLAlchemy[mypy]==2.0.41
+Flask-SQLAlchemy==3.0.5
+alembic==1.12.1
+Flask-Migrate==4.1.0
 
-flask-smorest==0.40.0
+flask-smorest==0.41.0
 marshmallow==3.19.0
 
 pytest==7.2.2
