@@ -1,5 +1,5 @@
 Flask==2.2.5
-Flask-Cors==3.0.10
+Flask-Cors==5.0.0
 
 psycopg2-binary==2.9.9
 SQLAlchemy[mypy]==2.0.41
