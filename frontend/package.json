@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test:unit": "vitest run",
     "test:unit-watch": "vitest watch",
-    "test:unit-coverage": "vitest --coverage",
+    "test:unit-coverage": "vitest run --coverage",
     "test:e2e": "cypress run",
     "test:e2e-dev": "cypress open",
     "lint": "eslint ./src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts",

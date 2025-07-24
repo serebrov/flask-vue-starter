@@ -2,7 +2,7 @@
   <div class="home">
     <h1>User Manager</h1>
 
-    <div v-if="isLoading" class="loading">Loading...</div>
+    <div v-if="userView.loading" class="loading">Loading...</div>
 
     <div class="content-grid">
       <div class="users-section">
@@ -16,7 +16,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" :key="user.id">
+            <tr v-for="user in userView.users" :key="user.id">
               <td>{{ user.id }}</td>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
@@ -35,14 +35,14 @@
 
       <div class="form-section">
         <div class="card">
-          <h3>{{ model.id ? `Edit User ID#${model.id}` : 'New User' }}</h3>
+          <h3>{{ userView.getFormTitle() }}</h3>
           <form @submit.prevent="saveUser">
             <div class="form-group">
               <label for="username">Username</label>
               <input
                 type="text"
                 id="username"
-                v-model="model.username"
+                v-model="userView.currentUser.username"
                 placeholder="Enter username"
                 required
               />
@@ -53,17 +53,19 @@
               <input
                 type="email"
                 id="email"
-                v-model="model.email"
+                v-model="userView.currentUser.email"
                 placeholder="Enter email"
                 required
               />
             </div>
 
-            <button type="submit" class="btn btn-primary btn-full-width">Save User</button>
+            <button type="submit" class="btn btn-primary btn-full-width">
+              Save User
+            </button>
           </form>
 
-          <div v-if="errors.length > 0" class="errors">
-            <div v-for="error in errors" :key="error" class="error">
+          <div v-if="userView.errors.length > 0" class="errors">
+            <div v-for="error in userView.errors" :key="error" class="error">
               {{ error }}
             </div>
           </div>
@@ -75,72 +77,24 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { backend, type User, type UserCreateData } from '../backend'
+import { UserView } from '../models/UserView'
 
-const NO_USER: User = { id: '', username: '', email: '' }
-
-const isLoading = ref(false)
-const users = ref<User[]>([])
-const model = ref<User>({ ...NO_USER })
-const error = ref<any>(null)
-const errors = ref<string[]>([])
+const userView = ref(new UserView())
 
 onMounted(() => {
-  refreshUsers()
+  userView.value.refreshUsers()
 })
 
-async function refreshUsers() {
-  isLoading.value = true
-  try {
-    const response = await backend.getUsers()
-    users.value = response.data
-  } catch (err) {
-    parseError(err)
-  }
-  isLoading.value = false
-}
-
-function populateUserToEdit(user: User) {
-  model.value = { ...user }
+function populateUserToEdit(user: any) {
+  userView.value.setCurrentUser(user)
 }
 
 async function saveUser() {
-  try {
-    if (model.value.id) {
-      await backend.updateUser(model.value.id, model.value as UserCreateData)
-    } else {
-      await backend.createUser(model.value as UserCreateData)
-    }
-    model.value = { ...NO_USER } // reset form
-    await refreshUsers()
-  } catch (err) {
-    parseError(err)
-  }
+  await userView.value.saveCurrentUser()
 }
 
 async function deleteUser(id: string) {
-  if (confirm('Are you sure you want to delete this user?')) {
-    // if we are editing a user we deleted, remove it from the form
-    if (model.value.id === id) {
-      model.value = { ...NO_USER }
-    }
-    await backend.deleteUser(id)
-    await refreshUsers()
-  }
-}
-
-function parseError(errorObj: any) {
-  error.value = errorObj
-  errors.value = []
-  if (errorObj?.response?.data?.errors) {
-    for (const [field, message] of Object.entries(
-      errorObj.response.data.errors,
-    )) {
-      errors.value.push(`${field}: ${message}`)
-    }
-  } else if (errorObj?.message) {
-    errors.value.push(errorObj.message)
-  }
+  await userView.value.deleteUserById(id)
 }
 </script>
 
@@ -149,4 +103,3 @@ function parseError(errorObj: any) {
   max-width: 100%;
 }
 </style>
-
