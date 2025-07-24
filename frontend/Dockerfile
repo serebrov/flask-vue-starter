@@ -1,4 +1,7 @@
-FROM node:16.11
+FROM node:20-alpine
+
+# Install shadow package for usermod/groupmod commands
+RUN apk add --no-cache shadow
 
 # Install global NPM dependencies in non-root user directory
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#global-npm-dependencies

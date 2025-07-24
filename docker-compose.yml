@@ -37,7 +37,7 @@ services:
         - UID=$UID
         - GID=$GID
     user: "node"
-    command: /bin/bash -c "yarn install && yarn serve"
+    command: /bin/sh -c "npm install && npm run dev"
     depends_on:
       - backend
     volumes:
