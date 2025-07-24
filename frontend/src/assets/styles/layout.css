@@ -31,7 +31,7 @@
   .content-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .main-content {
     padding: var(--spacing-md);
   }

@@ -127,4 +127,3 @@ defineProps<Props>()
   color: var(--color-primary);
 }
 </style>
-
